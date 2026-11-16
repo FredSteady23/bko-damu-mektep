@@ -11,7 +11,7 @@ nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 }));
 
 // ---- Слайдер: смена каждые 10 секунд ----
-const INTERVAL = 7000;
+const INTERVAL = 10000;
 const slides = document.querySelectorAll('.slide');
 const dotsBox = document.querySelector('.dots');
 let current = 0;
