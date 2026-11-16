@@ -30,6 +30,9 @@
       :root {
          --header-h: 64px;
      }
+     .nav.open {
+         transform: translateY(+135px);
+     }
      .logo__text small {
          display: none;
      }
