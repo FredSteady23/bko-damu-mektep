@@ -1,0 +1,237 @@
+/* ===== Блок «карта + таблица» ===== */
+
+.sm {
+    padding: 35px 0 56px;
+}
+
+.sm__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.sm__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.sm__tab {
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 2px solid #12358a;
+    background: #fff;
+    color: #12358a;
+    transition: background .15s, color .15s;
+}
+
+.sm__tab:hover {
+    background: #eef3ff;
+}
+
+.sm__tab.is-active {
+    background: #12358a;
+    color: #fff;
+}
+
+.sm__head {
+    margin: 0 0 18px;
+    font-size: clamp(20px, 2.4vw, 30px);
+    font-weight: 800;
+    color: #0a1f55;
+}
+
+.sm__head b {
+    color: #ef8a2b;
+}
+
+
+/* Две колонки: слева карта, справа таблица. Высоту ряда задаёт карта,
+           таблица скроллится ВНУТРИ своей колонки — карта не двигается вообще. */
+
+.sm__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+.sm__map {
+    padding: 12px;
+    border-radius: 20px;
+    background: radial-gradient(900px 600px at 50% 30%, #0d2a6e 0%, #06143a 75%);
+    box-shadow: 0 10px 30px rgba(6, 20, 58, .25);
+}
+
+.sm__map iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 0;
+    background: transparent;
+}
+
+.sm__side {
+    position: relative;
+    min-height: 0;
+}
+
+.sm__panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(6, 20, 58, .12);
+    overflow: hidden;
+    border: 1px solid #dbe3f3;
+}
+
+.sfilter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e6ecf7;
+    flex: none;
+}
+
+.sfilter__label {
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 4px;
+    color: #0a1f55;
+}
+
+.sfilter__chip {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #c9d3e0;
+    background: #fff;
+    color: #1d2b44;
+    transition: background .15s, color .15s, border-color .15s;
+}
+
+.sfilter__chip:hover {
+    border-color: #12358a;
+}
+
+.sfilter__chip.is-active {
+    background: #12358a;
+    border-color: #12358a;
+    color: #fff;
+}
+
+.sm__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.sm__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.sm__table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    text-align: left;
+    padding: 12px 14px;
+    background: #12358a;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.sm__table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #edf1f9;
+    vertical-align: top;
+    line-height: 1.4;
+    color: #1d2b44;
+}
+
+.sm__table tbody tr {
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.sm__table tbody tr:hover {
+    background: rgba(18, 53, 138, .06);
+}
+
+.sm__table tbody tr.is-selected {
+    background: rgba(240, 176, 48, .25);
+    box-shadow: inset 4px 0 0 #f0b030;
+}
+
+.sm__table .c-n {
+    width: 52px;
+}
+
+.sm__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ef8a2b;
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.sm__table .c-school {
+    font-weight: 600;
+}
+
+.sm__table .c-place {
+    color: #4a5a78;
+}
+
+.sm__empty td {
+    text-align: center;
+    padding: 28px;
+    color: #6b7a90;
+    cursor: default;
+}
+
+.sm__empty:hover {
+    background: none !important;
+}
+
+.header-second__inner {
+    width: 1250px;
+    margin: 0 auto;
+}
+
+.header-second {
+    color: #0d2a6e;
+    font-size: 36px;
+    line-height: 42px;
+}
+
+@media (max-width: 900px) {
+    .sm__grid {
+        grid-template-columns: 1fr;
+    }
+    .sm__side {
+        height: 520px;
+    }
+}

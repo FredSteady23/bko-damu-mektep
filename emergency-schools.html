@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Апатты мектептер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/overview.css">
+    <link rel="stylesheet" href="/styles/schools.css">
+    <link rel="stylesheet" href="/styles/year-block.css">
+    <link rel="stylesheet" href="/styles/adaptive.css">
+    <link rel="shortcut icon" href="./images/icon.ico" type="image/x-icon">
+    <style>
+        .overview__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        
+        .sm {
+            padding: 40px 0 56px;
+        }
+        
+        .sm__inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .sm__tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .sm__tab {
+            font: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 2px solid #12358a;
+            background: #fff;
+            color: #12358a;
+            transition: background .15s, color .15s;
+        }
+        
+        .sm__tab:hover {
+            background: #eef3ff;
+        }
+        
+        .sm__tab.is-active {
+            background: #12358a;
+            color: #fff;
+        }
+        
+        .sm__head {
+            margin: 0 0 18px;
+            font-size: clamp(20px, 2.4vw, 30px);
+            font-weight: 800;
+            color: #0a1f55;
+        }
+        
+        .sm__head b {
+            color: #ef8a2b;
+        }
+        /* Две колонки: слева карта, справа таблица. Высоту ряда задаёт карта,
+           таблица скроллится ВНУТРИ своей колонки — карта не двигается вообще. */
+        
+        .sm__grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+        
+        .sm__map {
+            padding: 12px;
+            border-radius: 20px;
+            background: radial-gradient(900px 600px at 50% 30%, #0d2a6e 0%, #06143a 75%);
+            box-shadow: 0 10px 30px rgba(6, 20, 58, .25);
+        }
+        
+        .sm__map iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border: 0;
+            background: transparent;
+        }
+        
+        .sm__side {
+            position: relative;
+            min-height: 0;
+        }
+        
+        .sm__panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(6, 20, 58, .12);
+            overflow: hidden;
+            border: 1px solid #dbe3f3;
+        }
+        
+        .sfilter {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e6ecf7;
+            flex: none;
+        }
+        
+        .sfilter__label {
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 4px;
+            color: #0a1f55;
+        }
+        
+        .sfilter__chip {
+            font: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid #c9d3e0;
+            background: #fff;
+            color: #1d2b44;
+            transition: background .15s, color .15s, border-color .15s;
+        }
+        
+        .sfilter__chip:hover {
+            border-color: #12358a;
+        }
+        
+        .sfilter__chip.is-active {
+            background: #12358a;
+            border-color: #12358a;
+            color: #fff;
+        }
+        
+        .sm__scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+        
+        .sm__table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .sm__table th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            text-align: left;
+            padding: 12px 14px;
+            background: #12358a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        
+        .sm__table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #edf1f9;
+            vertical-align: top;
+            line-height: 1.4;
+            color: #1d2b44;
+        }
+        
+        .sm__table tbody tr {
+            cursor: pointer;
+            transition: background .15s;
+        }
+        
+        .sm__table tbody tr:hover {
+            background: rgba(18, 53, 138, .06);
+        }
+        
+        .sm__table tbody tr.is-selected {
+            background: rgba(240, 176, 48, .25);
+            box-shadow: inset 4px 0 0 #f0b030;
+        }
+        
+        .sm__table .c-n {
+            width: 52px;
+        }
+        
+        .sm__num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ef8a2b;
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+        }
+        
+        .sm__table .c-school {
+            font-weight: 600;
+        }
+        
+        .sm__table .c-place {
+            color: #4a5a78;
+        }
+        
+        .sm__empty td {
+            text-align: center;
+            padding: 50px;
+            color: #6b7a90;
+            cursor: default;
+        }
+        
+        .sm__empty:hover {
+            background: none !important;
+        }
+        /* ===== Галерея: картинки школ столбиком, ширина 1250px ===== */
+        
+        .sg {
+            padding: 8px 0 64px;
+        }
+        
+        .sg__inner {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .sg__title {
+            margin: 0 0 24px;
+            font-size: clamp(20px, 2.4vw, 30px);
+            font-weight: 800;
+            color: #0a1f55;
+        }
+        
+        .sg__list {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+        
+        .sg__item {
+            margin: 0;
+            cursor: pointer;
+            scroll-margin-top: 90px;
+        }
+        
+        .sg__img {
+            display: block;
+            width: 100%;
+            max-width: 1250px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 20px;
+            background: #e6ecf7;
+            box-shadow: 0 10px 30px rgba(6, 20, 58, .15);
+            outline: 3px solid transparent;
+            outline-offset: 3px;
+            transition: outline-color .2s;
+        }
+        
+        .sg__item.is-selected .sg__img {
+            outline-color: #f0b030;
+        }
+        
+        .sg__item.is-missing .sg__img {
+            display: none;
+        }
+        
+        .sg__ph {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 20px;
+            background: #e6ecf7;
+            color: #6b7a90;
+            font-weight: 600;
+        }
+        
+        .sg__item.is-missing .sg__ph {
+            display: flex;
+        }
+        
+        .sg__cap {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-top: 14px;
+        }
+        
+        .sg__cap b {
+            font-size: 18px;
+            color: #0a1f55;
+        }
+        
+        .sg__cap span {
+            color: #4a5a78;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 900px) {
+            .sm__grid {
+                grid-template-columns: 1fr;
+            }
+            .sm__side {
+                height: 520px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__inner">
+            <a href="index.html" class="logo">
+                <span class="logo__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffe27a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
+                    </svg>
+                </span>
+                <span class="logo__text">
+                    БҚО мектептері
+                    <small>Мектептердің даму картасы</small>
+                </span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="./schools.html">38 жаңа мектеп</a>
+                <a href="#emergency">Апатты мектептер</a>
+                <a href="./shifts.html">Үш ауысымды</a>
+                <a href="./result.html">Талдау</a>
+                <!-- <a href="zko_map.html" class="btn-map">Карта</a> -->
+            </nav>
+
+            <button class="burger" id="burger" aria-label="Мәзір">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="overview">
+            <div class="overview__inner">
+
+                <h1 class="overview__title">
+                    Батыс Қазақстан облысындағы
+                    <span>2024–2026 жылдардағы апатты мектептер</span>
+                </h1>
+
+                <div class="overview__grid">
+                    <a href="#year-2024" class="ycard">
+                        <span class="ycard__badge">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                            2024 жыл
+                        </span>
+                        <div class="ycard__photo">
+                            <img src="./images/cards/work.png" alt="первая картина">
+                        </div>
+                        <div class="ycard__body">
+                            <strong class="ycard__num" id="cnt2024">16</strong>
+                            <span class="ycard__text">мектеп</span>
+                        </div>
+                    </a>
+
+                    <a href="#year-2025" class="ycard">
+                        <span class="ycard__badge">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                            2025 жыл
+                        </span>
+                        <div class="ycard__photo">
+                            <img src="./images/cards/work.png" alt="первая картина">
+                        </div>
+                        <div class="ycard__body">
+                            <strong class="ycard__num" id="cnt2025">8</strong>
+                            <span class="ycard__text">мектеп</span>
+                        </div>
+                    </a>
+
+                    <a href="#year-2026" class="ycard">
+                        <span class="ycard__badge">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                            2026 жыл
+                        </span>
+                        <div class="ycard__photo">
+                            <img src="./images/cards/work.png" alt="первая картина">
+                        </div>
+                        <div class="ycard__body">
+                            <strong class="ycard__num" id="cnt2026">5</strong>
+                            <span class="ycard__text">мектеп</span>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="overview__total">
+                    <svg class="overview__total-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
+                    </svg>
+                    <span class="overview__total-text">Барлығы – <b>29</b> мектеп</span>
+                </div>
+
+            </div>
+        </section>
+        <section class="sm" id="schools">
+            <div class="sm__inner">
+
+                <div class="sm__tabs" id="smTabs" role="tablist" aria-label="Жылдар">
+                    <!-- <button type="button" class="sm__tab is-active" data-year="2023" role="tab">2023</button> -->
+                    <button type="button" class="sm__tab is-active" data-year="2024" role="tab">2024</button>
+                    <button type="button" class="sm__tab" data-year="2025" role="tab">2025</button>
+                    <button type="button" class="sm__tab" data-year="2026" role="tab">2026</button>
+                </div>
+
+                <h2 class="sm__head"><span id="smHeadYear">2024 жыл -</span> <b id="smHeadText">14 мектеп капитальды жөңделді</b></h2>
+
+                <div class="sm__grid">
+
+                    <div class="sm__map">
+                        <iframe id="smMap" title="Батыс Қазақстан облысының картасы" scrolling="no" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;kk&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+    &lt;title&gt;Батыс Қазақстан облысы&lt;/title&gt;
+    &lt;script&gt;document.documentElement.classList.add(&quot;embed&quot;);&lt;/script&gt;
+    &lt;style&gt;
+         :root {
+            --gold: #f0b030;
+            --bg: #06143a;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 800px at 50% 30%, #0d2a6e 0%, var(--bg) 70%);
+            min-height: 100%;
+            font-family: Montserrat, &quot;Segoe UI&quot;, Arial, sans-serif;
+        }
+        
+        .wrap {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 18px 14px;
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            overflow: visible;
+            touch-action: manipulation;
+        }
+        
+        .halo {
+            fill: #12358a;
+            stroke: var(--gold);
+            stroke-width: 14;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+        
+        .region {
+            fill: var(--f);
+            stroke: var(--gold);
+            stroke-width: 3.5;
+            stroke-linejoin: round;
+            cursor: pointer;
+            transition: fill .25s ease, stroke .25s ease, filter .25s ease;
+            outline: none;
+        }
+        
+        .region:hover,
+        .region:focus-visible,
+        .region.active {
+            fill: #5aa0ff;
+            stroke: #fff6c2;
+            stroke-width: 5;
+            filter: drop-shadow(0 0 6px #bfe4ff) drop-shadow(0 0 16px #4da3ff) drop-shadow(0 0 30px #ffe27a);
+        }
+        
+        .region.active {
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            50% {
+                filter: drop-shadow(0 0 4px #bfe4ff) drop-shadow(0 0 10px #4da3ff) drop-shadow(0 0 18px #ffe27a);
+            }
+        }
+        
+        .rname {
+            fill: #fff;
+            font-weight: 800;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+            paint-order: stroke;
+            stroke: rgba(0, 10, 50, .6);
+            stroke-width: 5px;
+            stroke-linejoin: round;
+        }
+        /* город Орал */
+        
+        .city {
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .city .hit {
+            fill: transparent;
+        }
+        
+        .city .dot {
+            fill: #fff;
+            stroke: #ef8a2b;
+            stroke-width: 5;
+            transition: filter .25s;
+        }
+        
+        .city:hover .dot,
+        .city:focus-visible .dot,
+        .city.active .dot {
+            filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 16px #ffe27a) drop-shadow(0 0 28px #4da3ff);
+        }
+        
+        .city.active .dot {
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+        
+        .cname {
+            fill: #fff;
+            font-weight: 800;
+            font-size: 26px;
+            paint-order: stroke;
+            stroke: rgba(0, 10, 50, .7);
+            stroke-width: 5px;
+            pointer-events: none;
+        }
+        /* метки: оранжевый пин с номером + белая плашка */
+        
+        .pins {
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .22s ease;
+        }
+        
+        .pins.show {
+            opacity: 1;
+        }
+        
+        .pin-item {
+            transition: transform .22s ease;
+        }
+        
+        .pins:not(.show) .pin-item {
+            transform: translateY(8px);
+        }
+        
+        .pill {
+            fill: #fff;
+            filter: drop-shadow(0 3px 5px rgba(0, 10, 50, .45));
+        }
+        
+        .ptxt {
+            fill: #1a1ae0;
+            font-weight: 700;
+            font-size: 22px;
+        }
+        
+        .pin {
+            fill: #ef8a2b;
+            stroke: #ffd9a0;
+            stroke-width: 3;
+            filter: drop-shadow(0 3px 4px rgba(0, 10, 50, .5));
+        }
+        
+        .pnum {
+            fill: #fff;
+            font-weight: 800;
+            font-size: 26px;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+        
+        .spoke {
+            stroke: #e8a63a;
+            stroke-width: 4;
+            stroke-linecap: round;
+            opacity: .95;
+        }
+        
+        .hub {
+            fill: #fff;
+            stroke: #ef8a2b;
+            stroke-width: 4;
+            filter: drop-shadow(0 2px 4px rgba(0, 10, 50, .5));
+        }
+        
+        .stem {
+            stroke: #ef8a2b;
+            stroke-width: 7;
+            stroke-linecap: round;
+        }
+        
+        .tip {
+            fill: #fff;
+            stroke: #ffd9a0;
+            stroke-width: 3;
+        }
+        /* режим настройки (адрес страницы с #edit) */
+        
+        body.edit .pins {
+            pointer-events: auto;
+        }
+        
+        body.edit .pin-item {
+            cursor: grab;
+        }
+        
+        #hint {
+            position: fixed;
+            left: 12px;
+            bottom: 12px;
+            background: #ffe27a;
+            color: #222;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font: 600 13px/1.4 Arial, sans-serif;
+            max-width: 360px;
+            display: none;
+            z-index: 5;
+        }
+        
+        body.edit #hint {
+            display: block;
+        }
+    
+        /* режим вставки: schools.html подключает карту как zko_map.html?embed */
+        
+        html.embed,
+        html.embed body {
+            background: transparent;
+            overflow: hidden;
+        }
+        
+        html.embed .wrap {
+            max-width: none;
+            padding: 0;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div class=&quot;wrap&quot;&gt;&lt;svg id=&quot;map&quot; role=&quot;img&quot; aria-label=&quot;Карта Западно-Казахстанской области&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
+    &lt;div id=&quot;hint&quot;&gt;Режим настройки: перетащите метки куда нужно, затем откройте консоль (F12) и выполните &lt;b&gt;copyPlaces()&lt;/b&gt; — готовый список с положением меток скопируется, его вставьте в &lt;b&gt;PLACES&lt;/b&gt;.&lt;/div&gt;
+
+    &lt;script&gt;
+        const DATA = {
+            &quot;w&quot;: 1680,
+            &quot;h&quot;: 1260,
+            &quot;regions&quot;: [{
+                &quot;id&quot;: &quot;Akzhaikskiy&quot;,
+                &quot;kk&quot;: &quot;Ақжайық&quot;,
+                &quot;ru&quot;: &quot;Акжаикский район&quot;,
+                &quot;d&quot;: &quot;M1249.5,1062.4 L1245.1,1047.3 L1258.9,987.2 L1282.8,986.2 L1279.7,911.6 L1297.3,919.5 L1309.1,891.3 L1321.3,897.4 L1390.1,897.4 L1420.8,887.6 L1415.6,875.3 L1327.8,877.9 L1282.8,865.0 L1283.0,836.0 L1267.7,836.9 L1262.9,819.1 L1272.7,805.8 L1268.1,789.3 L1255.3,779.3 L1252.6,758.6 L1275.8,728.7 L1269.9,712.4 L1246.1,718.5 L1235.7,708.2 L1218.4,704.1 L1221.0,694.4 L1205.1,691.5 L1185.9,673.2 L1164.1,636.7 L1180.3,603.9 L1192.0,603.5 L1168.6,556.7 L1167.5,530.3 L1158.4,530.4 L1142.7,520.8 L1125.8,494.2 L1096.8,510.5 L1070.2,515.8 L1072.3,530.1 L1061.3,534.4 L1065.3,544.3 L1045.3,557.9 L1045.4,576.4 L1006.9,587.4 L996.0,566.6 L1003.0,561.6 L993.9,552.4 L1000.9,547.4 L993.6,541.9 L993.5,532.7 L987.5,536.3 L981.1,528.0 L974.7,529.0 L959.2,512.9 L962.5,500.5 L951.1,502.3 L950.6,482.6 L959.9,475.9 L951.9,466.6 L961.5,461.1 L954.6,450.3 L955.1,437.1 L964.0,435.7 L964.3,421.1 L973.5,413.1 L964.6,406.5 L960.8,391.3 L952.0,386.0 L943.7,391.3 L916.7,386.3 L901.7,375.5 L872.3,372.3 L872.9,337.9 L862.2,337.0 L820.5,339.7 L825.7,369.2 L817.9,392.8 L788.4,442.1 L748.0,436.7 L720.6,460.6 L727.7,500.1 L735.9,517.1 L726.9,577.3 L781.8,594.9 L853.1,611.6 L868.3,634.2 L927.7,676.6 L924.1,745.4 L945.8,754.1 L960.3,782.2 L969.1,773.1 L978.0,790.2 L993.2,789.3 L998.5,808.3 L980.3,822.7 L986.7,849.3 L962.9,868.4 L952.9,928.8 L970.4,927.7 L964.2,971.9 L921.8,982.8 L923.3,1001.0 L946.2,1003.1 L987.2,1000.2 L1010.8,989.2 L1094.6,1004.0 L1099.9,1015.1 L1093.0,1020.0 L1091.5,1045.2 L1155.0,1060.2 L1162.1,1047.4 L1170.7,1046.1 L1214.2,1071.6 L1235.5,1071.1Z&quot;,
+                &quot;lx&quot;: 1116.5,
+                &quot;ly&quot;: 822.0,
+                &quot;r&quot;: 118.4
+            }, {
+                &quot;id&quot;: &quot;Burlinskiy&quot;,
+                &quot;kk&quot;: &quot;Бөрлі&quot;,
+                &quot;ru&quot;: &quot;Бурлинский район&quot;,
+                &quot;d&quot;: &quot;M1230.5,295.5 L1274.8,322.7 L1294.3,328.0 L1300.1,331.2 L1296.1,349.1 L1306.2,373.0 L1316.3,369.0 L1314.4,355.9 L1326.6,356.9 L1335.8,365.0 L1349.7,340.6 L1390.4,362.0 L1397.3,336.1 L1433.6,313.8 L1429.8,299.9 L1450.2,283.7 L1420.1,249.3 L1413.9,251.0 L1403.9,239.1 L1408.0,236.8 L1409.7,226.7 L1419.0,185.6 L1428.1,141.1 L1425.7,140.3 L1424.7,136.9 L1423.4,135.9 L1418.8,134.8 L1415.8,132.5 L1415.4,131.7 L1415.7,128.2 L1411.2,124.0 L1409.0,123.0 L1406.0,123.0 L1403.2,119.5 L1402.2,117.5 L1399.2,116.4 L1398.0,117.6 L1392.9,118.3 L1387.9,121.0 L1386.3,123.0 L1385.6,125.9 L1383.1,125.8 L1381.5,124.4 L1380.7,120.4 L1379.8,119.3 L1377.1,118.0 L1370.6,119.4 L1366.3,117.9 L1365.2,116.5 L1367.1,113.9 L1367.5,111.7 L1365.8,110.7 L1361.9,115.3 L1356.7,114.0 L1355.9,117.2 L1356.5,118.6 L1359.9,121.4 L1360.3,123.1 L1359.8,124.4 L1355.1,124.2 L1350.6,125.3 L1346.9,123.9 L1345.2,121.2 L1342.8,121.4 L1340.9,123.9 L1339.4,124.7 L1336.2,125.4 L1329.3,128.9 L1325.5,126.4 L1323.7,126.3 L1323.8,127.9 L1324.9,129.9 L1324.5,131.1 L1323.4,131.1 L1320.4,129.1 L1319.1,129.1 L1319.0,130.4 L1320.4,132.9 L1320.2,134.0 L1318.9,134.1 L1316.0,128.4 L1314.1,127.4 L1313.3,126.2 L1313.8,122.4 L1312.1,121.8 L1310.6,122.3 L1309.9,123.6 L1309.2,128.4 L1307.9,128.1 L1306.6,126.7 L1304.1,129.4 L1302.3,129.4 L1301.3,127.6 L1301.3,125.9 L1306.9,122.7 L1307.4,122.0 L1307.1,120.8 L1304.7,121.0 L1301.9,122.8 L1299.9,122.5 L1296.5,120.2 L1291.5,122.3 L1291.0,121.5 L1290.9,118.8 L1288.2,120.3 L1287.3,119.7 L1287.2,118.0 L1286.6,117.7 L1284.6,119.1 L1284.3,118.3 L1285.0,116.1 L1283.6,113.9 L1282.0,117.0 L1281.9,122.1 L1279.5,120.3 L1277.3,119.6 L1277.1,120.8 L1279.0,125.5 L1278.3,126.3 L1274.8,125.3 L1271.5,127.1 L1265.2,128.1 L1265.1,129.7 L1266.6,131.8 L1266.6,134.3 L1264.2,133.5 L1263.0,132.1 L1261.4,124.8 L1260.9,124.2 L1259.1,124.5 L1258.5,126.5 L1258.5,132.0 L1256.9,132.4 L1254.5,129.9 L1253.3,129.8 L1252.7,130.9 L1254.9,134.3 L1254.7,135.3 L1248.4,134.9 L1247.6,134.0 L1249.0,130.8 L1248.7,129.5 L1246.5,130.1 L1242.7,132.7 L1242.4,134.1 L1238.4,132.7 L1237.4,131.8 L1237.5,128.6 L1239.2,127.3 L1239.8,125.7 L1239.1,124.2 L1237.9,123.2 L1237.6,124.7 L1231.6,134.2 L1218.0,148.5 L1219.1,157.5 L1212.0,155.9 L1210.4,164.0 L1214.8,166.0 L1208.2,176.2 L1214.8,183.2 L1224.6,176.5 L1236.8,185.5 L1216.3,220.8 L1223.7,231.8 L1242.7,211.5 L1237.6,258.1 L1232.2,257.6 L1229.9,267.3 L1223.8,271.0Z&quot;,
+                &quot;lx&quot;: 1333.9,
+                &quot;ly&quot;: 237.5,
+                &quot;r&quot;: 68.1
+            }, {
+                &quot;id&quot;: &quot;Chingirlauskiy&quot;,
+                &quot;kk&quot;: &quot;Шыңғырлау&quot;,
+                &quot;ru&quot;: &quot;Чингирлауский район&quot;,
+                &quot;d&quot;: &quot;M1636.9,412.7 L1636.1,412.7 L1631.7,415.8 L1628.0,416.6 L1625.6,416.2 L1622.0,409.3 L1616.8,403.2 L1614.3,399.0 L1612.1,396.8 L1608.8,390.6 L1608.7,387.7 L1609.4,381.9 L1614.7,373.4 L1616.9,367.1 L1614.6,355.9 L1617.6,342.9 L1618.7,339.9 L1627.1,327.3 L1627.3,323.8 L1626.5,321.6 L1624.9,319.8 L1617.8,317.4 L1615.0,315.1 L1612.8,314.4 L1605.4,314.5 L1587.5,312.4 L1583.9,310.5 L1581.4,307.8 L1579.2,304.2 L1575.3,294.5 L1572.1,288.9 L1567.3,286.0 L1565.0,283.2 L1565.0,282.4 L1566.6,279.4 L1565.9,278.1 L1563.8,276.5 L1561.0,276.2 L1560.7,275.5 L1561.4,273.4 L1561.2,271.8 L1558.6,270.2 L1557.9,269.0 L1559.6,266.6 L1563.1,265.6 L1563.5,264.3 L1562.8,262.8 L1559.4,259.2 L1557.8,255.2 L1557.2,254.7 L1555.6,255.4 L1554.1,259.2 L1553.2,258.9 L1552.4,257.1 L1552.5,255.4 L1555.2,250.3 L1555.4,247.8 L1554.8,244.9 L1552.8,241.3 L1550.7,238.7 L1548.9,237.5 L1545.1,236.0 L1540.3,235.3 L1536.8,233.7 L1534.8,231.9 L1534.7,230.9 L1535.8,229.5 L1535.5,228.8 L1533.0,227.5 L1531.7,225.2 L1520.7,222.6 L1518.3,219.6 L1513.3,216.9 L1506.6,214.7 L1504.5,213.0 L1502.6,215.0 L1499.4,214.9 L1495.6,216.4 L1493.2,215.9 L1489.4,211.0 L1487.3,209.6 L1485.0,209.9 L1482.5,211.3 L1478.6,210.7 L1475.6,212.7 L1475.1,211.8 L1475.4,210.7 L1474.2,208.4 L1472.4,208.3 L1465.6,204.3 L1462.9,205.6 L1461.3,205.5 L1457.7,201.1 L1457.4,199.8 L1458.5,197.2 L1456.7,194.4 L1456.6,192.4 L1448.9,185.3 L1448.8,182.9 L1447.6,181.1 L1448.3,176.4 L1450.6,175.1 L1451.4,173.1 L1451.9,168.9 L1451.6,167.2 L1446.6,162.3 L1450.5,162.6 L1452.3,161.5 L1453.9,159.5 L1452.8,155.8 L1451.4,154.2 L1447.0,152.8 L1442.8,148.2 L1442.0,146.6 L1441.7,143.6 L1440.1,142.7 L1432.8,143.2 L1431.5,142.8 L1429.7,141.0 L1428.1,141.1 L1419.0,185.6 L1409.7,226.7 L1408.0,236.8 L1403.9,239.1 L1413.9,251.0 L1420.1,249.3 L1450.2,283.7 L1429.8,299.9 L1433.6,313.8 L1397.3,336.1 L1390.4,362.0 L1384.0,403.8 L1406.4,401.0 L1420.7,407.2 L1434.9,402.8 L1451.3,394.3 L1459.6,416.9 L1465.3,453.0 L1432.6,470.2 L1430.9,478.4 L1443.7,496.5 L1456.7,493.5 L1481.9,491.6 L1529.8,513.1 L1522.3,557.3 L1542.5,561.4 L1551.7,576.0 L1580.0,571.3 L1594.7,574.8 L1619.1,556.2 L1618.5,548.5 L1609.2,545.6 L1608.5,519.5 L1612.1,498.1 L1597.3,477.5 L1618.3,455.3 L1615.0,446.5 L1640.0,417.0Z&quot;,
+                &quot;lx&quot;: 1533.4,
+                &quot;ly&quot;: 395.0,
+                &quot;r&quot;: 74.0
+            }, {
+                &quot;id&quot;: &quot;Dzhangalinskiy&quot;,
+                &quot;kk&quot;: &quot;Жаңақала&quot;,
+                &quot;ru&quot;: &quot;Жангалинский район&quot;,
+                &quot;d&quot;: &quot;M946.2,1003.1 L923.3,1001.0 L921.8,982.8 L964.2,971.9 L970.4,927.7 L952.9,928.8 L962.9,868.4 L986.7,849.3 L980.3,822.7 L998.5,808.3 L993.2,789.3 L978.0,790.2 L969.1,773.1 L960.3,782.2 L945.8,754.1 L924.1,745.4 L927.7,676.6 L868.3,634.2 L860.9,644.5 L864.8,653.1 L844.3,669.2 L834.4,664.1 L805.8,677.5 L773.6,685.0 L745.8,672.2 L715.5,683.5 L703.5,695.8 L739.2,747.6 L743.2,763.9 L698.5,792.9 L710.7,827.5 L697.3,830.8 L693.7,869.1 L672.0,874.9 L656.4,857.9 L655.3,843.8 L629.4,847.9 L622.6,830.8 L603.3,830.1 L604.9,810.4 L598.2,808.9 L571.1,829.0 L563.5,843.2 L560.8,863.0 L574.1,886.5 L557.2,1015.3 L527.5,1179.7 L624.5,1219.7 L622.9,1187.8 L684.6,1191.3 L695.4,1182.2 L728.8,1183.0 L768.9,1140.2 L877.8,1064.6 L890.2,1064.3 L908.7,1046.1 L916.8,1050.3 L935.1,1038.7Z&quot;,
+                &quot;lx&quot;: 815.0,
+                &quot;ly&quot;: 909.1,
+                &quot;r&quot;: 116.8
+            }, {
+                &quot;id&quot;: &quot;Dzhanybekskiy&quot;,
+                &quot;kk&quot;: &quot;Жәнібек&quot;,
+                &quot;ru&quot;: &quot;Жанибекский район&quot;,
+                &quot;d&quot;: &quot;M329.2,521.4 L327.6,514.8 L324.8,512.1 L323.5,509.0 L319.3,503.6 L314.4,499.8 L308.7,493.8 L305.1,488.0 L302.7,485.3 L302.0,480.2 L294.5,479.2 L288.2,473.3 L286.0,469.1 L287.7,465.6 L282.8,462.3 L271.5,457.0 L263.9,447.4 L257.1,442.9 L249.6,439.9 L241.3,441.9 L233.1,450.5 L228.3,454.3 L225.1,463.7 L221.4,466.0 L220.7,469.5 L221.5,472.1 L221.2,477.6 L219.1,479.0 L203.7,480.1 L200.3,486.5 L200.4,502.1 L204.3,503.9 L205.1,507.5 L193.3,518.4 L192.1,520.8 L205.1,541.3 L207.6,549.6 L206.4,553.0 L193.2,579.5 L184.8,592.2 L172.5,604.6 L162.0,611.6 L140.1,619.4 L135.2,621.9 L124.4,622.1 L122.2,624.5 L119.3,631.1 L115.5,659.7 L115.7,680.2 L112.7,702.0 L110.7,706.5 L106.6,713.3 L104.9,717.8 L102.9,731.5 L102.3,748.7 L101.4,755.9 L98.6,769.9 L97.0,782.5 L97.5,786.5 L108.6,793.7 L113.7,796.3 L121.8,803.0 L144.8,824.5 L149.4,831.1 L151.0,838.0 L148.2,852.0 L147.4,854.2 L195.3,878.7 L193.6,865.0 L220.6,831.8 L239.5,836.2 L251.8,828.1 L266.0,840.0 L310.5,854.7 L312.9,865.6 L326.4,862.2 L337.3,846.8 L329.7,835.8 L349.2,818.2 L355.2,810.3 L339.7,798.8 L339.8,793.7 L332.2,794.3 L311.1,763.8 L313.5,751.7 L322.6,745.6 L311.4,742.1 L309.4,733.6 L316.0,728.1 L313.3,716.1 L318.3,714.8 L308.6,707.0 L312.5,701.0 L309.1,675.0 L300.0,669.7 L287.8,646.0 L281.5,652.7 L279.8,645.5 L241.2,628.6 L245.9,621.1 L232.2,608.3 L268.1,573.4 L283.1,568.6 L291.1,555.7 L308.7,548.5 L315.6,536.0 L323.4,528.8Z&quot;,
+                &quot;lx&quot;: 189.6,
+                &quot;ly&quot;: 722.7,
+                &quot;r&quot;: 76.8
+            }, {
+                &quot;id&quot;: &quot;Karatobinskiy&quot;,
+                &quot;kk&quot;: &quot;Қаратөбе&quot;,
+                &quot;ru&quot;: &quot;Каратобинский район&quot;,
+                &quot;d&quot;: &quot;M1619.1,556.2 L1594.7,574.8 L1580.0,571.3 L1551.7,576.0 L1542.5,561.4 L1522.3,557.3 L1529.8,513.1 L1481.9,491.6 L1456.7,493.5 L1443.7,496.5 L1442.9,512.4 L1417.7,513.0 L1403.3,536.1 L1423.7,551.8 L1403.1,578.4 L1404.9,594.0 L1394.6,606.0 L1403.1,611.4 L1388.9,613.3 L1378.5,625.4 L1381.6,628.9 L1366.7,624.4 L1342.9,643.6 L1315.6,654.2 L1304.9,692.7 L1300.3,697.4 L1305.1,704.6 L1289.7,716.1 L1269.9,712.4 L1275.8,728.7 L1252.6,758.6 L1255.3,779.3 L1268.1,789.3 L1272.7,805.8 L1262.9,819.1 L1267.7,836.9 L1283.0,836.0 L1282.8,865.0 L1327.8,877.9 L1415.6,875.3 L1453.9,842.1 L1460.5,832.0 L1458.6,803.4 L1471.7,758.2 L1464.8,742.1 L1477.0,748.3 L1485.1,727.5 L1500.4,713.7 L1519.7,713.7 L1523.4,698.8 L1547.8,698.3 L1564.8,701.4 L1584.2,689.8 L1579.6,681.3 L1593.4,663.9 L1597.6,652.9 L1619.5,652.9 L1607.9,638.6 L1626.9,605.1 L1626.2,596.0 L1635.1,578.0 L1632.6,562.6Z&quot;,
+                &quot;lx&quot;: 1380.7,
+                &quot;ly&quot;: 752.6,
+                &quot;r&quot;: 79.8
+            }, {
+                &quot;id&quot;: &quot;Kaztalovskiy&quot;,
+                &quot;kk&quot;: &quot;Қазталов&quot;,
+                &quot;ru&quot;: &quot;Казталовский район&quot;,
+                &quot;d&quot;: &quot;M727.7,500.1 L678.9,506.5 L652.1,504.3 L627.6,494.0 L629.0,466.2 L640.7,457.7 L646.0,429.2 L601.5,417.9 L570.6,415.2 L564.0,407.2 L558.9,408.1 L549.2,386.7 L534.8,382.3 L530.0,371.4 L526.0,377.7 L524.0,379.8 L510.0,387.8 L501.4,397.7 L498.9,397.5 L492.2,391.9 L480.9,391.5 L476.9,390.7 L472.0,387.3 L463.5,378.5 L456.9,377.0 L452.7,378.2 L448.7,383.0 L448.9,387.0 L451.2,391.3 L464.0,398.3 L464.7,402.4 L466.9,406.1 L464.1,415.5 L468.6,436.6 L473.9,466.4 L474.7,481.1 L476.9,492.9 L480.1,503.3 L489.5,518.8 L492.5,526.6 L491.9,533.1 L490.4,539.6 L488.1,542.4 L487.7,548.0 L489.0,550.6 L494.4,553.1 L502.9,554.2 L506.9,555.6 L507.4,561.7 L511.9,574.7 L511.2,577.2 L509.0,579.5 L483.7,604.3 L465.8,613.0 L424.0,631.6 L423.2,635.5 L423.9,639.6 L422.3,641.0 L416.4,638.6 L416.2,635.0 L412.9,631.7 L411.3,633.1 L407.2,634.3 L406.3,632.7 L405.6,628.6 L404.1,627.5 L402.6,627.4 L400.0,622.2 L396.5,621.4 L392.3,624.1 L386.4,622.2 L383.8,622.5 L381.4,620.8 L382.7,616.8 L382.5,612.8 L381.2,609.7 L375.8,600.2 L370.6,596.2 L368.3,592.5 L367.7,587.4 L363.9,583.6 L364.1,581.1 L361.4,568.3 L359.8,563.7 L357.4,553.8 L355.1,550.6 L346.6,548.0 L343.5,542.2 L340.1,540.0 L336.3,536.2 L335.6,532.6 L335.8,529.6 L335.4,527.5 L333.0,524.8 L330.1,523.1 L329.2,521.4 L323.4,528.8 L315.6,536.0 L308.7,548.5 L291.1,555.7 L283.1,568.6 L268.1,573.4 L232.2,608.3 L245.9,621.1 L241.2,628.6 L279.8,645.5 L281.5,652.7 L287.8,646.0 L300.0,669.7 L309.1,675.0 L312.5,701.0 L308.6,707.0 L318.3,714.8 L313.3,716.1 L316.0,728.1 L309.4,733.6 L311.4,742.1 L322.6,745.6 L313.5,751.7 L311.1,763.8 L332.2,794.3 L339.8,793.7 L339.7,798.8 L355.2,810.3 L349.2,818.2 L356.9,824.0 L357.0,830.3 L379.7,844.2 L408.1,853.1 L445.8,806.8 L461.2,805.0 L476.8,811.1 L480.8,805.2 L528.6,809.3 L528.8,823.5 L563.5,843.2 L571.1,829.0 L598.2,808.9 L604.9,810.4 L603.3,830.1 L622.6,830.8 L629.4,847.9 L655.3,843.8 L656.4,857.9 L672.0,874.9 L693.7,869.1 L697.3,830.8 L710.7,827.5 L698.5,792.9 L743.2,763.9 L739.2,747.6 L703.5,695.8 L715.5,683.5 L745.8,672.2 L773.6,685.0 L805.8,677.5 L834.4,664.1 L844.3,669.2 L864.8,653.1 L860.9,644.5 L868.3,634.2 L853.1,611.6 L781.8,594.9 L726.9,577.3 L735.9,517.1Z&quot;,
+                &quot;lx&quot;: 603.1,
+                &quot;ly&quot;: 649.2,
+                &quot;r&quot;: 102.9
+            }, {
+                &quot;id&quot;: &quot;Syrymskiy&quot;,
+                &quot;kk&quot;: &quot;Сырым&quot;,
+                &quot;ru&quot;: &quot;Сырымский район&quot;,
+                &quot;d&quot;: &quot;M1269.9,712.4 L1289.7,716.1 L1305.1,704.6 L1300.3,697.4 L1304.9,692.7 L1315.6,654.2 L1342.9,643.6 L1366.7,624.4 L1381.6,628.9 L1378.5,625.4 L1388.9,613.3 L1403.1,611.4 L1394.6,606.0 L1404.9,594.0 L1403.1,578.4 L1423.7,551.8 L1403.3,536.1 L1417.7,513.0 L1442.9,512.4 L1443.7,496.5 L1430.9,478.4 L1432.6,470.2 L1465.3,453.0 L1459.6,416.9 L1451.3,394.3 L1434.9,402.8 L1420.7,407.2 L1406.4,401.0 L1384.0,403.8 L1390.4,362.0 L1349.7,340.6 L1335.8,365.0 L1326.6,356.9 L1314.4,355.9 L1316.3,369.0 L1306.2,373.0 L1296.1,349.1 L1300.1,331.2 L1294.3,328.0 L1274.8,322.7 L1230.5,295.5 L1213.6,323.6 L1180.0,320.7 L1164.7,292.3 L1152.0,295.6 L1143.0,289.0 L1135.5,291.6 L1105.3,285.7 L1112.9,307.2 L1099.4,313.4 L1103.4,330.1 L1097.2,332.4 L1108.9,347.9 L1122.0,347.2 L1127.2,371.7 L1098.7,392.1 L1103.1,403.4 L1097.6,418.9 L1112.9,407.2 L1130.5,428.4 L1116.7,441.2 L1122.6,445.6 L1096.6,473.5 L1125.8,494.2 L1142.7,520.8 L1158.4,530.4 L1167.5,530.3 L1168.6,556.7 L1192.0,603.5 L1180.3,603.9 L1164.1,636.7 L1185.9,673.2 L1205.1,691.5 L1221.0,694.4 L1218.4,704.1 L1235.7,708.2 L1246.1,718.5Z&quot;,
+                &quot;lx&quot;: 1273.0,
+                &quot;ly&quot;: 516.6,
+                &quot;r&quot;: 98.4
+            }, {
+                &quot;id&quot;: &quot;Taskalinskiy&quot;,
+                &quot;kk&quot;: &quot;Тасқала&quot;,
+                &quot;ru&quot;: &quot;Таскалинский район&quot;,
+                &quot;d&quot;: &quot;M862.2,337.0 L860.1,317.5 L866.2,299.4 L876.9,300.3 L878.1,292.2 L897.2,295.7 L896.4,276.0 L906.4,273.0 L902.7,252.5 L876.8,255.4 L874.1,247.9 L851.8,248.9 L849.8,237.4 L856.0,235.1 L853.1,226.3 L824.9,223.1 L814.4,231.4 L811.9,209.5 L818.1,199.3 L781.4,186.3 L780.0,183.8 L777.5,184.9 L764.7,187.2 L724.5,201.3 L720.9,203.3 L707.8,214.7 L701.8,222.3 L694.5,228.5 L684.5,238.2 L681.7,239.9 L673.6,240.5 L660.9,237.6 L653.7,236.9 L643.8,239.8 L640.0,241.8 L635.8,241.9 L626.9,237.1 L619.3,235.4 L618.3,237.6 L618.2,241.4 L612.1,242.9 L609.5,245.4 L611.0,258.0 L600.1,275.8 L600.3,278.3 L603.2,281.4 L605.9,282.6 L609.3,288.0 L617.7,306.9 L619.5,312.7 L618.8,316.9 L617.4,318.6 L602.2,323.8 L590.2,324.8 L585.9,327.5 L584.1,330.1 L581.3,332.4 L564.5,336.1 L559.7,338.2 L554.5,341.5 L550.3,346.0 L536.4,363.3 L532.8,367.1 L530.0,371.4 L534.8,382.3 L549.2,386.7 L558.9,408.1 L564.0,407.2 L570.6,415.2 L601.5,417.9 L646.0,429.2 L640.7,457.7 L629.0,466.2 L627.6,494.0 L652.1,504.3 L678.9,506.5 L727.7,500.1 L720.6,460.6 L748.0,436.7 L788.4,442.1 L817.9,392.8 L825.7,369.2 L820.5,339.7Z&quot;,
+                &quot;lx&quot;: 745.4,
+                &quot;ly&quot;: 318.9,
+                &quot;r&quot;: 76.0
+            }, {
+                &quot;id&quot;: &quot;Terektinskiy&quot;,
+                &quot;kk&quot;: &quot;Теректі&quot;,
+                &quot;ru&quot;: &quot;Теректинский район&quot;,
+                &quot;d&quot;: &quot;M1125.8,494.2 L1096.6,473.5 L1122.6,445.6 L1116.7,441.2 L1130.5,428.4 L1112.9,407.2 L1097.6,418.9 L1103.1,403.4 L1098.7,392.1 L1127.2,371.7 L1122.0,347.2 L1108.9,347.9 L1097.2,332.4 L1103.4,330.1 L1099.4,313.4 L1112.9,307.2 L1105.3,285.7 L1135.5,291.6 L1143.0,289.0 L1152.0,295.6 L1164.7,292.3 L1180.0,320.7 L1213.6,323.6 L1230.5,295.5 L1223.8,271.0 L1229.9,267.3 L1232.2,257.6 L1237.6,258.1 L1242.7,211.5 L1223.7,231.8 L1216.3,220.8 L1236.8,185.5 L1224.6,176.5 L1214.8,183.2 L1208.2,176.2 L1214.8,166.0 L1210.4,164.0 L1212.0,155.9 L1219.1,157.5 L1218.0,148.5 L1191.4,135.6 L1185.2,141.4 L1174.0,140.4 L1166.0,132.6 L1164.8,144.3 L1156.0,149.5 L1114.5,151.0 L1108.9,162.7 L1109.5,172.1 L1093.9,180.3 L1063.4,180.3 L1053.7,184.7 L1052.4,191.6 L1037.6,190.2 L1032.4,211.1 L1022.6,222.0 L1009.0,220.3 L1002.3,226.8 L1007.0,238.0 L1000.7,247.0 L1008.3,252.3 L994.5,263.9 L986.3,277.2 L980.0,294.1 L974.9,295.0 L977.6,310.4 L967.9,308.0 L959.6,321.3 L966.7,332.1 L959.7,337.2 L975.3,351.9 L965.7,365.3 L970.4,377.8 L960.8,391.3 L964.6,406.5 L973.5,413.1 L964.3,421.1 L964.0,435.7 L955.1,437.1 L954.6,450.3 L961.5,461.1 L951.9,466.6 L959.9,475.9 L950.6,482.6 L951.1,502.3 L962.5,500.5 L959.2,512.9 L974.7,529.0 L981.1,528.0 L987.5,536.3 L993.5,532.7 L993.6,541.9 L1000.9,547.4 L993.9,552.4 L1003.0,561.6 L996.0,566.6 L1006.9,587.4 L1045.4,576.4 L1045.3,557.9 L1065.3,544.3 L1061.3,534.4 L1072.3,530.1 L1070.2,515.8 L1096.8,510.5Z&quot;,
+                &quot;lx&quot;: 1035.4,
+                &quot;ly&quot;: 384.0,
+                &quot;r&quot;: 63.5
+            }, {
+                &quot;id&quot;: &quot;Urdinskiy&quot;,
+                &quot;kk&quot;: &quot;Бөкей ордасы&quot;,
+                &quot;ru&quot;: &quot;Бокейординский район&quot;,
+                &quot;d&quot;: &quot;M527.5,1179.7 L557.2,1015.3 L574.1,886.5 L560.8,863.0 L563.5,843.2 L528.8,823.5 L528.6,809.3 L480.8,805.2 L476.8,811.1 L461.2,805.0 L445.8,806.8 L408.1,853.1 L379.7,844.2 L357.0,830.3 L356.9,824.0 L349.2,818.2 L329.7,835.8 L337.3,846.8 L326.4,862.2 L312.9,865.6 L310.5,854.7 L266.0,840.0 L251.8,828.1 L239.5,836.2 L220.6,831.8 L193.6,865.0 L195.3,878.7 L147.4,854.2 L141.3,870.0 L135.0,879.5 L128.2,887.5 L112.0,898.4 L101.6,903.9 L96.7,907.4 L84.9,934.6 L75.0,964.6 L61.6,996.9 L44.6,1045.0 L40.0,1059.4 L45.9,1064.0 L57.0,1067.9 L76.8,1076.2 L95.4,1086.0 L102.1,1088.7 L116.1,1092.0 L122.4,1091.3 L125.6,1091.8 L127.0,1092.8 L125.7,1095.0 L126.1,1096.3 L139.3,1113.2 L143.8,1118.0 L173.7,1128.4 L197.0,1127.1 L297.9,1143.5 L472.6,1163.7Z&quot;,
+                &quot;lx&quot;: 451.5,
+                &quot;ly&quot;: 999.6,
+                &quot;r&quot;: 103.9
+            }, {
+                &quot;id&quot;: &quot;Zelenovskiy&quot;,
+                &quot;kk&quot;: &quot;Бәйтерек&quot;,
+                &quot;ru&quot;: &quot;Бәйтерекский район&quot;,
+                &quot;d&quot;: &quot;M960.8,391.3 L970.4,377.8 L965.7,365.3 L975.3,351.9 L959.7,337.2 L966.7,332.1 L959.6,321.3 L967.9,308.0 L977.6,310.4 L974.9,295.0 L980.0,294.1 L986.3,277.2 L994.5,263.9 L1008.3,252.3 L1000.7,247.0 L1007.0,238.0 L1002.3,226.8 L1009.0,220.3 L1022.6,222.0 L1032.4,211.1 L1037.6,190.2 L1052.4,191.6 L1053.7,184.7 L1063.4,180.3 L1093.9,180.3 L1109.5,172.1 L1108.9,162.7 L1114.5,151.0 L1156.0,149.5 L1164.8,144.3 L1166.0,132.6 L1174.0,140.4 L1185.2,141.4 L1191.4,135.6 L1218.0,148.5 L1231.6,134.2 L1237.6,124.7 L1237.9,123.2 L1232.1,120.4 L1231.2,119.1 L1229.2,107.4 L1228.0,105.4 L1222.4,101.1 L1220.0,97.7 L1216.9,88.5 L1207.0,76.7 L1205.3,73.7 L1202.6,58.8 L1202.1,47.3 L1201.1,44.0 L1199.6,42.1 L1194.4,40.2 L1191.7,40.7 L1189.1,42.5 L1189.6,45.7 L1189.5,49.3 L1181.2,55.1 L1178.7,55.5 L1170.5,53.2 L1166.1,53.4 L1163.8,54.5 L1163.1,56.0 L1162.8,62.2 L1161.3,64.7 L1157.4,70.2 L1150.8,73.8 L1148.0,74.1 L1142.6,72.9 L1134.9,75.1 L1123.9,68.5 L1119.6,66.7 L1101.3,65.6 L1089.6,78.9 L1085.1,85.2 L1082.3,90.3 L1081.3,94.0 L1081.6,97.8 L1088.7,112.4 L1089.0,114.7 L1088.0,116.1 L1078.1,119.7 L1072.4,125.2 L1064.2,129.8 L1060.1,131.4 L1056.0,130.9 L1054.0,127.9 L1054.9,124.9 L1059.5,117.3 L1055.8,111.3 L1053.3,110.2 L1048.4,111.7 L1047.6,111.4 L1045.4,105.8 L1043.6,103.0 L1041.3,103.0 L1039.3,104.6 L1038.9,107.1 L1039.4,111.7 L1034.4,118.5 L1016.5,127.1 L1008.8,124.2 L993.7,124.8 L988.6,123.5 L986.2,121.7 L986.3,114.6 L984.8,111.6 L980.4,108.8 L979.6,104.7 L980.6,103.0 L992.6,101.6 L1001.2,101.5 L1003.0,100.2 L1003.7,98.2 L1004.1,86.8 L1002.6,74.7 L992.3,72.8 L990.1,71.8 L989.3,67.4 L984.5,63.6 L980.5,63.9 L966.4,67.2 L966.2,69.2 L962.2,69.5 L961.0,68.1 L956.4,69.1 L955.0,67.7 L943.9,70.3 L941.2,69.0 L936.1,64.9 L933.0,67.1 L909.9,66.4 L908.9,65.8 L907.3,56.7 L904.5,48.3 L886.5,40.1 L880.9,40.5 L879.4,44.7 L878.5,52.5 L879.1,61.2 L879.8,64.3 L883.6,68.5 L888.1,70.2 L890.8,72.3 L890.8,74.1 L889.8,76.2 L888.3,91.6 L887.6,93.5 L884.8,94.7 L883.2,97.9 L870.3,99.8 L865.6,99.9 L864.9,99.0 L866.1,97.4 L870.4,94.3 L875.8,88.2 L875.7,82.4 L866.3,81.4 L861.7,80.4 L857.2,78.2 L851.0,77.6 L846.2,78.1 L844.9,80.0 L844.2,87.0 L842.2,90.6 L840.5,92.0 L838.6,90.0 L837.0,89.8 L835.6,90.7 L832.8,99.3 L832.6,106.1 L831.0,111.8 L830.9,114.6 L835.6,125.0 L835.1,129.5 L830.2,129.0 L825.7,129.5 L825.4,132.3 L826.1,135.2 L825.0,140.4 L805.6,141.2 L803.1,142.2 L807.3,146.7 L807.5,149.8 L800.7,155.4 L799.9,157.4 L800.4,160.0 L802.1,161.7 L802.3,164.2 L803.9,166.9 L807.5,169.6 L806.6,170.8 L780.0,183.8 L781.4,186.3 L818.1,199.3 L811.9,209.5 L814.4,231.4 L824.9,223.1 L853.1,226.3 L856.0,235.1 L849.8,237.4 L851.8,248.9 L874.1,247.9 L876.8,255.4 L902.7,252.5 L906.4,273.0 L896.4,276.0 L897.2,295.7 L878.1,292.2 L876.9,300.3 L866.2,299.4 L860.1,317.5 L862.2,337.0 L872.9,337.9 L872.3,372.3 L901.7,375.5 L916.7,386.3 L943.7,391.3 L952.0,386.0Z&quot;,
+                &quot;lx&quot;: 929.8,
+                &quot;ly&quot;: 165.1,
+                &quot;r&quot;: 62.3
+            }],
+            &quot;outline&quot;: &quot;M935.1,1038.7 L916.8,1050.3 L908.7,1046.1 L890.2,1064.3 L877.8,1064.6 L768.9,1140.2 L728.8,1183.0 L695.4,1182.2 L684.6,1191.3 L622.9,1187.8 L624.5,1219.7 L527.5,1179.7 L472.6,1163.7 L297.9,1143.5 L197.0,1127.1 L173.7,1128.4 L143.8,1118.0 L139.3,1113.2 L126.1,1096.3 L125.7,1095.0 L127.0,1092.8 L125.6,1091.8 L122.4,1091.3 L116.1,1092.0 L102.1,1088.7 L95.4,1086.0 L76.8,1076.2 L57.0,1067.9 L45.9,1064.0 L40.0,1059.4 L44.6,1045.0 L61.6,996.9 L75.0,964.6 L84.9,934.6 L96.7,907.4 L101.6,903.9 L112.0,898.4 L128.2,887.5 L135.0,879.5 L141.3,870.0 L148.2,852.0 L151.0,838.0 L149.4,831.1 L144.8,824.5 L121.8,803.0 L113.7,796.3 L108.6,793.7 L97.5,786.5 L97.0,782.5 L98.6,769.9 L101.4,755.9 L102.3,748.7 L102.9,731.5 L104.9,717.8 L106.6,713.3 L110.7,706.5 L112.7,702.0 L115.7,680.2 L115.5,659.7 L119.3,631.1 L122.2,624.5 L124.4,622.1 L135.2,621.9 L140.1,619.4 L162.0,611.6 L172.5,604.6 L184.8,592.2 L193.2,579.5 L206.4,553.0 L207.6,549.6 L205.1,541.3 L192.1,520.8 L193.3,518.4 L205.1,507.5 L204.3,503.9 L200.4,502.1 L200.3,486.5 L203.7,480.1 L219.1,479.0 L221.2,477.6 L221.5,472.1 L220.7,469.5 L221.4,466.0 L225.1,463.7 L228.3,454.3 L233.1,450.5 L241.3,441.9 L249.6,439.9 L257.1,442.9 L263.9,447.4 L271.5,457.0 L282.8,462.3 L287.7,465.6 L286.0,469.1 L288.2,473.3 L294.5,479.2 L302.0,480.2 L302.7,485.3 L305.1,488.0 L308.7,493.8 L314.4,499.8 L319.3,503.6 L323.5,509.0 L324.8,512.1 L327.6,514.8 L329.2,521.4 L330.1,523.1 L333.0,524.8 L335.4,527.5 L335.8,529.6 L335.6,532.6 L336.3,536.2 L340.1,540.0 L343.5,542.2 L346.6,548.0 L355.1,550.6 L357.4,553.8 L359.8,563.7 L361.4,568.3 L364.1,581.1 L363.9,583.6 L367.7,587.4 L368.3,592.5 L370.6,596.2 L375.8,600.2 L381.2,609.7 L382.5,612.8 L382.7,616.8 L381.4,620.8 L383.8,622.5 L386.4,622.2 L392.3,624.1 L396.5,621.4 L400.0,622.2 L402.6,627.4 L404.1,627.5 L405.6,628.6 L406.3,632.7 L407.2,634.3 L411.3,633.1 L412.9,631.7 L416.2,635.0 L416.4,638.6 L422.3,641.0 L423.9,639.6 L423.2,635.5 L424.0,631.6 L465.8,613.0 L483.7,604.3 L509.0,579.5 L511.2,577.2 L511.9,574.7 L507.4,561.7 L506.9,555.6 L502.9,554.2 L494.4,553.1 L489.0,550.6 L487.7,548.0 L488.1,542.4 L490.4,539.6 L491.9,533.1 L492.5,526.6 L489.5,518.8 L480.1,503.3 L476.9,492.9 L474.7,481.1 L473.9,466.4 L468.6,436.6 L464.1,415.5 L466.9,406.1 L464.7,402.4 L464.0,398.3 L451.2,391.3 L448.9,387.0 L448.7,383.0 L452.7,378.2 L456.9,377.0 L463.5,378.5 L472.0,387.3 L476.9,390.7 L480.9,391.5 L492.2,391.9 L498.9,397.5 L501.4,397.7 L510.0,387.8 L524.0,379.8 L526.0,377.7 L532.8,367.1 L554.5,341.5 L559.7,338.2 L564.5,336.1 L581.3,332.4 L584.1,330.1 L585.9,327.5 L590.2,324.8 L602.2,323.8 L617.4,318.6 L618.8,316.9 L619.5,312.7 L617.7,306.9 L609.3,288.0 L605.9,282.6 L603.2,281.4 L600.3,278.3 L600.1,275.8 L611.0,258.0 L609.5,245.4 L612.1,242.9 L618.2,241.4 L618.3,237.6 L619.3,235.4 L626.9,237.1 L635.8,241.9 L640.0,241.8 L643.8,239.8 L653.7,236.9 L660.9,237.6 L673.6,240.5 L681.7,239.9 L684.5,238.2 L694.5,228.5 L701.8,222.3 L707.8,214.7 L720.9,203.3 L724.5,201.3 L764.7,187.2 L777.5,184.9 L806.6,170.8 L807.5,169.6 L803.9,166.9 L802.3,164.2 L802.1,161.7 L800.4,160.0 L799.9,157.4 L800.7,155.4 L807.5,149.8 L807.3,146.7 L803.1,142.2 L805.6,141.2 L825.0,140.4 L826.1,135.2 L825.4,132.3 L825.7,129.5 L830.2,129.0 L835.1,129.5 L835.6,125.0 L830.9,114.6 L831.0,111.8 L832.6,106.1 L832.8,99.3 L835.6,90.7 L837.0,89.8 L838.6,90.0 L840.5,92.0 L842.2,90.6 L844.2,87.0 L844.9,80.0 L846.2,78.1 L851.0,77.6 L857.2,78.2 L861.7,80.4 L875.7,82.4 L875.8,88.2 L870.4,94.3 L866.1,97.4 L864.9,99.0 L865.6,99.9 L870.3,99.8 L883.2,97.9 L884.8,94.7 L887.6,93.5 L888.3,91.6 L889.8,76.2 L890.8,74.1 L890.8,72.3 L888.1,70.2 L883.6,68.5 L879.8,64.3 L879.1,61.2 L878.5,52.5 L879.4,44.7 L880.9,40.5 L886.5,40.1 L904.5,48.3 L907.3,56.7 L908.9,65.8 L909.9,66.4 L933.0,67.1 L936.1,64.9 L941.2,69.0 L943.9,70.3 L955.0,67.7 L956.4,69.1 L961.0,68.1 L962.2,69.5 L966.2,69.2 L966.4,67.2 L980.5,63.9 L984.5,63.6 L989.3,67.4 L990.1,71.8 L992.3,72.8 L1002.6,74.7 L1004.1,86.8 L1003.7,98.2 L1003.0,100.2 L1001.2,101.5 L992.6,101.6 L980.6,103.0 L979.6,104.7 L980.4,108.8 L984.8,111.6 L986.3,114.6 L986.2,121.7 L988.6,123.5 L993.7,124.8 L1008.8,124.2 L1016.5,127.1 L1034.4,118.5 L1039.4,111.7 L1038.9,107.1 L1039.3,104.6 L1041.3,103.0 L1043.6,103.0 L1045.4,105.8 L1047.6,111.4 L1048.4,111.7 L1053.3,110.2 L1055.8,111.3 L1059.5,117.3 L1054.9,124.9 L1054.0,127.9 L1056.0,130.9 L1060.1,131.4 L1064.2,129.8 L1072.4,125.2 L1078.1,119.7 L1088.0,116.1 L1089.0,114.7 L1088.7,112.4 L1081.6,97.8 L1081.3,94.0 L1082.3,90.3 L1085.1,85.2 L1089.6,78.9 L1101.3,65.6 L1119.6,66.7 L1123.9,68.5 L1134.9,75.1 L1142.6,72.9 L1148.0,74.1 L1150.8,73.8 L1157.4,70.2 L1161.3,64.7 L1162.8,62.2 L1163.1,56.0 L1163.8,54.5 L1166.1,53.4 L1170.5,53.2 L1178.7,55.5 L1181.2,55.1 L1189.5,49.3 L1189.6,45.7 L1189.1,42.5 L1191.7,40.7 L1194.4,40.2 L1199.6,42.1 L1201.1,44.0 L1202.1,47.3 L1202.6,58.8 L1205.3,73.7 L1207.0,76.7 L1216.9,88.5 L1220.0,97.7 L1222.4,101.1 L1228.0,105.4 L1229.2,107.4 L1231.2,119.1 L1232.1,120.4 L1239.1,124.2 L1239.8,125.7 L1239.2,127.3 L1237.5,128.6 L1237.4,131.8 L1238.4,132.7 L1242.4,134.1 L1242.7,132.7 L1246.5,130.1 L1248.7,129.5 L1249.0,130.8 L1247.6,134.0 L1248.4,134.9 L1254.7,135.3 L1254.9,134.3 L1252.7,130.9 L1253.3,129.8 L1254.5,129.9 L1256.9,132.4 L1258.5,132.0 L1258.5,126.5 L1259.1,124.5 L1260.9,124.2 L1261.4,124.8 L1263.0,132.1 L1264.2,133.5 L1266.6,134.3 L1266.6,131.8 L1265.1,129.7 L1265.2,128.1 L1271.5,127.1 L1274.8,125.3 L1278.3,126.3 L1279.0,125.5 L1277.1,120.8 L1277.3,119.6 L1279.5,120.3 L1281.9,122.1 L1282.0,117.0 L1283.6,113.9 L1285.0,116.1 L1284.3,118.3 L1284.6,119.1 L1286.6,117.7 L1287.2,118.0 L1287.3,119.7 L1288.2,120.3 L1290.9,118.8 L1291.0,121.5 L1291.5,122.3 L1296.5,120.2 L1299.9,122.5 L1301.9,122.8 L1304.7,121.0 L1307.1,120.8 L1307.4,122.0 L1306.9,122.7 L1301.3,125.9 L1301.3,127.6 L1302.3,129.4 L1304.1,129.4 L1306.6,126.7 L1307.9,128.1 L1309.2,128.4 L1309.9,123.6 L1310.6,122.3 L1312.1,121.8 L1313.8,122.4 L1313.3,126.2 L1314.1,127.4 L1316.0,128.4 L1318.9,134.1 L1320.2,134.0 L1320.4,132.9 L1319.0,130.4 L1319.1,129.1 L1320.4,129.1 L1323.4,131.1 L1324.5,131.1 L1324.9,129.9 L1323.8,127.9 L1323.7,126.3 L1325.5,126.4 L1329.3,128.9 L1336.2,125.4 L1339.4,124.7 L1340.9,123.9 L1342.8,121.4 L1345.2,121.2 L1346.9,123.9 L1350.6,125.3 L1355.1,124.2 L1359.8,124.4 L1360.3,123.1 L1359.9,121.4 L1356.5,118.6 L1355.9,117.2 L1356.7,114.0 L1361.9,115.3 L1365.8,110.7 L1367.5,111.7 L1367.1,113.9 L1365.2,116.5 L1366.3,117.9 L1370.6,119.4 L1377.1,118.0 L1379.8,119.3 L1380.7,120.4 L1381.5,124.4 L1383.1,125.8 L1385.6,125.9 L1386.3,123.0 L1387.9,121.0 L1392.9,118.3 L1398.0,117.6 L1399.2,116.4 L1402.2,117.5 L1403.2,119.5 L1406.0,123.0 L1409.0,123.0 L1411.2,124.0 L1415.7,128.2 L1415.4,131.7 L1415.8,132.5 L1418.8,134.8 L1423.4,135.9 L1424.7,136.9 L1425.7,140.3 L1427.2,141.1 L1429.7,141.0 L1431.5,142.8 L1432.8,143.2 L1440.1,142.7 L1441.7,143.6 L1442.0,146.6 L1442.8,148.2 L1447.0,152.8 L1451.4,154.2 L1452.8,155.8 L1453.9,159.5 L1452.3,161.5 L1450.5,162.6 L1446.6,162.3 L1451.6,167.2 L1451.9,168.9 L1451.4,173.1 L1450.6,175.1 L1448.3,176.4 L1447.6,181.1 L1448.8,182.9 L1448.9,185.3 L1456.6,192.4 L1456.7,194.4 L1458.5,197.2 L1457.4,199.8 L1457.7,201.1 L1461.3,205.5 L1462.9,205.6 L1465.6,204.3 L1472.4,208.3 L1474.2,208.4 L1475.4,210.7 L1475.1,211.8 L1475.6,212.7 L1478.6,210.7 L1482.5,211.3 L1485.0,209.9 L1487.3,209.6 L1489.4,211.0 L1493.2,215.9 L1495.6,216.4 L1499.4,214.9 L1502.6,215.0 L1504.5,213.0 L1506.6,214.7 L1513.3,216.9 L1518.3,219.6 L1520.7,222.6 L1531.7,225.2 L1533.0,227.5 L1535.5,228.8 L1535.8,229.5 L1534.7,230.9 L1534.8,231.9 L1536.8,233.7 L1540.3,235.3 L1545.1,236.0 L1548.9,237.5 L1550.7,238.7 L1552.8,241.3 L1554.8,244.9 L1555.4,247.8 L1555.2,250.3 L1552.5,255.4 L1552.4,257.1 L1553.2,258.9 L1554.1,259.2 L1555.6,255.4 L1557.2,254.7 L1557.8,255.2 L1559.4,259.2 L1562.8,262.8 L1563.5,264.3 L1563.1,265.6 L1559.6,266.6 L1557.9,269.0 L1558.6,270.2 L1561.2,271.8 L1561.4,273.4 L1560.7,275.5 L1561.0,276.2 L1563.8,276.5 L1565.9,278.1 L1566.6,279.4 L1565.0,282.4 L1565.0,283.2 L1567.3,286.0 L1572.1,288.9 L1575.3,294.5 L1579.2,304.2 L1581.4,307.8 L1583.9,310.5 L1587.5,312.4 L1605.4,314.5 L1612.8,314.4 L1615.0,315.1 L1617.8,317.4 L1624.9,319.8 L1626.5,321.6 L1627.3,323.8 L1627.1,327.3 L1618.7,339.9 L1617.6,342.9 L1614.6,355.9 L1616.9,367.1 L1614.7,373.4 L1609.4,381.9 L1608.7,387.7 L1608.8,390.6 L1612.1,396.8 L1614.3,399.0 L1616.8,403.2 L1622.0,409.3 L1625.6,416.2 L1628.0,416.6 L1631.7,415.8 L1636.1,412.7 L1636.9,412.7 L1640.0,417.0 L1615.0,446.5 L1618.3,455.3 L1597.3,477.5 L1612.1,498.1 L1608.5,519.5 L1609.2,545.6 L1618.5,548.5 L1619.1,556.2 L1632.6,562.6 L1635.1,578.0 L1626.2,596.0 L1626.9,605.1 L1607.9,638.6 L1619.5,652.9 L1597.6,652.9 L1593.4,663.9 L1579.6,681.3 L1584.2,689.8 L1564.8,701.4 L1547.8,698.3 L1523.4,698.8 L1519.7,713.7 L1500.4,713.7 L1485.1,727.5 L1477.0,748.3 L1464.8,742.1 L1471.7,758.2 L1458.6,803.4 L1460.5,832.0 L1453.9,842.1 L1415.6,875.3 L1420.8,887.6 L1390.1,897.4 L1321.3,897.4 L1309.1,891.3 L1297.3,919.5 L1279.7,911.6 L1282.8,986.2 L1258.9,987.2 L1245.1,1047.3 L1249.5,1062.4 L1235.5,1071.1 L1214.2,1071.6 L1170.7,1046.1 L1162.1,1047.4 L1155.0,1060.2 L1091.5,1045.2 L1093.0,1020.0 L1099.9,1015.1 L1094.6,1004.0 L1010.8,989.2 L987.2,1000.2 L946.2,1003.1Z&quot;,
+            &quot;city&quot;: {
+                &quot;cx&quot;: 1004.3,
+                &quot;cy&quot;: 203.7
+            }
+        };
+
+        /* =====================================================================
+           СПИСОК МЕТОК — ЗДЕСЬ ВСЁ РЕДАКТИРУЕТСЯ
+           Ключ — название района (или &quot;Орал қаласы&quot; для города).
+           Пункт:  {num: номер на метке, name: &quot;текст на плашке&quot;}
+           Можно добавить x, y — точное положение метки на карте
+           (проще всего задать в режиме настройки: откройте страницу с #edit).
+           Без x, y метки расставляются автоматически.
+           ===================================================================== */
+        const PLACES = {
+            &quot;Орал қаласы&quot;: [],
+
+            &quot;Тасқала&quot;: [],
+            &quot;Бәйтерек&quot;: [{
+                num: 4,
+                name: &quot;Садовый ауылы&quot;
+            }, {
+                num: 5,
+                name: &quot;Жайық ауылы&quot;
+            }, {
+                num: 6,
+                name: &quot;Өркен ауылы&quot;
+            }, {
+                num: 7,
+                name: &quot;Жалын ауылы&quot;
+            }],
+            &quot;Бөрлі&quot;: [],
+            &quot;Шыңғырлау&quot;: [],
+            &quot;Қаратөбе&quot;: [{
+                num: 14,
+                name: &quot;Шалғын ауылы&quot;
+            }],
+            &quot;Ақжайық&quot;: [{
+                num: 1,
+                name: &quot;Атамекен ауылы&quot;
+            }, {
+                num: 2,
+                name: &quot;Жайық ауылы&quot;
+            }],
+            &quot;Жаңақала&quot;: [],
+            &quot;Бөкей ордасы&quot;: [],
+            &quot;Жәнібек&quot;: [{
+                num: 3,
+                name: &quot;Ақоба ауылы&quot;
+            }],
+            &quot;Қазталов&quot;: [{
+                num: 12,
+                name: &quot;Қазталов ауылы&quot;
+            }, {
+                num: 13,
+                name: &quot;Жұлдыз ауылы&quot;
+            }],
+            &quot;Теректі&quot;: [{
+                num: 8,
+                name: &quot;Пойма ауылы&quot;
+            }, {
+                num: 9,
+                name: &quot;Абай ауылы&quot;
+            }, {
+                num: 10,
+                name: &quot;Магистральный ауылы&quot;
+            }, {
+                num: 11,
+                name: &quot;Үлкен Еңбек ауылы&quot;
+            }],
+            &quot;Сырым&quot;: []
+        };
+        /* ==================================================================== */
+
+        const EDIT = location.hash === &quot;#edit&quot;;
+        if (EDIT) document.body.classList.add(&quot;edit&quot;);
+
+        const NS = &quot;http://www.w3.org/2000/svg&quot;;
+        const svg = document.getElementById(&quot;map&quot;);
+        svg.setAttribute(&quot;viewBox&quot;, `0 0 ${DATA.w} ${DATA.h}`);
+        const mk = (tag, attrs, parent) =&gt; {
+            const e = document.createElementNS(NS, tag);
+            for (const k in attrs) e.setAttribute(k, attrs[k]);
+            if (parent) parent.appendChild(e);
+            return e;
+        };
+
+        mk(&quot;path&quot;, {
+            d: DATA.outline,
+            class: &quot;halo&quot;,
+            &quot;fill-rule&quot;: &quot;evenodd&quot;
+        }, svg);
+        const gR = mk(&quot;g&quot;, {}, svg),
+            gL = mk(&quot;g&quot;, {
+                style: &quot;pointer-events:none&quot;
+            }, svg),
+            gP = mk(&quot;g&quot;, {}, svg),
+            gC = mk(&quot;g&quot;, {}, svg); // точка города поверх линий меток
+        const meas = mk(&quot;text&quot;, {
+            class: &quot;ptxt&quot;,
+            x: 0,
+            y: 0,
+            visibility: &quot;hidden&quot;
+        }, svg);
+        const textW = s =&gt; {
+            meas.textContent = s;
+            return meas.getComputedTextLength();
+        };
+
+        const PIN_R = 22,
+            STEM = 46,
+            PILL_H = 40,
+            GAP = 30;
+        const shades = [&quot;#12358a&quot;, &quot;#1c4fb5&quot;, &quot;#173f9c&quot;, &quot;#2260c8&quot;];
+        const entries = []; // районы + город
+        let active = null,
+            hovered = null;
+        const regionPaths = [];
+        const rawPts = (x, y) =&gt; new DOMPoint(x, y);
+
+        /* ---------- расстановка меток ---------- */
+        const boxOf = (x, y, w, s) =&gt; ({
+            x0: s &gt; 0 ? x - PIN_R : x - GAP - w,
+            x1: s &gt; 0 ? x + GAP + w : x + PIN_R,
+            y0: y - PIN_R,
+            y1: y + STEM + 8
+        });
+        const hit = (a, b, pad = 4) =&gt; a.x0 &lt; b.x1 + pad &amp;&amp; a.x1 &gt; b.x0 - pad &amp;&amp; a.y0 &lt; b.y1 + pad &amp;&amp; a.y1 &gt; b.y0 - pad;
+        // плашка рисуется в ту сторону, где больше места внутри района
+        function sideOf(reg, x, y, w) {
+            if (reg.inside(x + GAP + w * 0.6, y + 6)) return 1;
+            if (reg.inside(x - GAP - w * 0.6, y + 6)) return -1;
+            return (x + GAP + w &lt; DATA.w - 10) ? 1 : -1;
+        }
+        // город: метки веером от узла рядом с точкой города, к каждой идёт линия
+        // плашка уходит от узла: у левых меток — влево, у правых — вправо
+        const hubSide = (H, x, w) =&gt; {
+            let d = x &lt; H.x - 10 ? -1 : 1;
+            if (d &gt; 0 &amp;&amp; x + GAP + w &gt; DATA.w - 10) d = -1;
+            else if (d &lt; 0 &amp;&amp; x - GAP - w &lt; 4) d = 1;
+            return d;
+        };
+        const hubBox = (H, x, y, w) =&gt; {
+            const d = hubSide(H, x, w);
+            return {
+                x0: d &gt; 0 ? x - PIN_R : x - GAP - w,
+                x1: d &gt; 0 ? x + GAP + w : x + PIN_R,
+                y0: y - PIN_R,
+                y1: y + PIN_R
+            };
+        };
+
+        function autoPlaceHub(reg) {
+            // метки чередуются справа и слева; каждая следующая пара — выше и ближе к вертикали,
+            // поэтому линии к дальним меткам не пересекают плашки ближних
+            const H = reg.hub,
+                r0 = H.r0 || 130,
+                step = H.step || 64,
+                a0 = H.a0 || 34,
+                da = H.da || 5,
+                amin = H.amin || 10;
+            reg.places.filter(p =&gt; p.x == null).forEach((p, i) =&gt; {
+                const k = Math.floor(i / 2),
+                    side = i % 2 === 0 ? 1 : -1;
+                const r = r0 + k * step,
+                    a = Math.max(amin, a0 - k * da) * Math.PI / 180;
+                p.ax = H.x + side * r * Math.sin(a);
+                p.ay = H.y - r * Math.cos(a);
+            });
+        }
+
+        function autoPlace(reg) {
+            if (reg.hub) return autoPlaceHub(reg);
+            const fixed = reg.places.filter(p =&gt; p.x != null),
+                todo = reg.places.filter(p =&gt; p.x == null);
+            if (!todo.length) return;
+            const bb = reg.bbox(),
+                lb = reg.labelEl.getBBox();
+            const lc = {
+                x: lb.x + lb.width / 2,
+                y: lb.y + lb.height / 2
+            };
+            const labels = entries.map(e =&gt; {
+                const b = e.labelEl.getBBox();
+                return {
+                    x0: b.x,
+                    x1: b.x + b.width,
+                    y0: b.y,
+                    y1: b.y + b.height
+                };
+            });
+            labels.push({
+                x0: DATA.city.cx - 24,
+                x1: DATA.city.cx + 24,
+                y0: DATA.city.cy - 24,
+                y1: DATA.city.cy + 24
+            }); // точка города
+            const M = PIN_R - 2,
+                step = 12,
+                cands = [];
+            for (let y = bb.y + M; y &lt; bb.y + bb.height - M; y += step)
+                for (let x = bb.x + M; x &lt; bb.x + bb.width - M; x += step)
+                    if (reg.inside(x, y) &amp;&amp; reg.inside(x - M, y) &amp;&amp; reg.inside(x + M, y) &amp;&amp;
+                        reg.inside(x, y - M) &amp;&amp; reg.inside(x, y + M) &amp;&amp; reg.inside(x - 2, y + STEM)) cands.push({
+                        x,
+                        y
+                    });
+            const taken = [lc, lc],
+                rects = [];
+            fixed.forEach(p =&gt; {
+                const w = textW(p.name) + 28;
+                taken.push({
+                    x: p.x,
+                    y: p.y
+                });
+                rects.push(boxOf(p.x, p.y, w, sideOf(reg, p.x, p.y, w)));
+            });
+            todo.forEach(p =&gt; {
+                const w = textW(p.name) + 28;
+                let best = null,
+                    bestS = -1e9,
+                    soft = null,
+                    softS = -1e9;
+                for (const c of cands) {
+                    const r = boxOf(c.x, c.y, w, sideOf(reg, c.x, c.y, w));
+                    if (rects.some(q =&gt; hit(r, q)) || r.x0 &lt; 0 || r.x1 &gt; DATA.w) continue;
+                    let md = 1e9;
+                    for (const t of taken) md = Math.min(md, Math.hypot(c.x - t.x, c.y - t.y));
+                    const d = Math.hypot(c.x - lc.x, c.y - lc.y);
+                    // у района — равномерно по площади; у города — кучно вокруг точки
+                    const sc = reg.near ? Math.min(md, 70) - 0.5 * d : md - 0.2 * d;
+                    const clash = labels.some(q =&gt; hit(r, q, 2));
+                    if (!clash &amp;&amp; sc &gt; bestS) {
+                        bestS = sc;
+                        best = c;
+                    }
+                    if (sc - (clash ? 400 : 0) &gt; softS) {
+                        softS = sc - (clash ? 400 : 0);
+                        soft = c;
+                    }
+                }
+                const c = best || soft || {
+                    x: lc.x,
+                    y: lc.y + 60
+                };
+                p.ax = c.x;
+                p.ay = c.y;
+                taken.push(c);
+                rects.push(boxOf(c.x, c.y, w, sideOf(reg, c.x, c.y, w)));
+            });
+        }
+
+        /* ---------- отрисовка меток ---------- */
+        function renderPins(reg) {
+            reg.g.innerHTML = &quot;&quot;;
+            autoPlace(reg);
+            const lg = reg.hub ? mk(&quot;g&quot;, {}, reg.g) : null;
+            reg.places.forEach(p =&gt; {
+                const x = p.x != null ? p.x : p.ax,
+                    y = p.y != null ? p.y : p.ay;
+                const ln = lg ? mk(&quot;line&quot;, {
+                    x1: reg.hub.x,
+                    y1: reg.hub.y,
+                    x2: x,
+                    y2: y,
+                    class: &quot;spoke&quot;
+                }, lg) : null;
+                const g = mk(&quot;g&quot;, {
+                    class: &quot;pin-item&quot;,
+                    transform: `translate(${x},${y})`
+                }, reg.g);
+                const w = textW(p.name) + 28,
+                    right = reg.hub ? hubSide(reg.hub, x, w) &gt; 0 : sideOf(reg, x, y, w) &gt; 0;
+                const py = reg.hub ? -PILL_H / 2 : -PILL_H / 2 + 6;
+                mk(&quot;rect&quot;, {
+                    x: right ? GAP : -GAP - w,
+                    y: py,
+                    width: w,
+                    height: PILL_H,
+                    rx: PILL_H / 2,
+                    class: &quot;pill&quot;
+                }, g);
+                mk(&quot;text&quot;, {
+                    x: (right ? GAP : -GAP - w) + 14,
+                    y: py + 28,
+                    class: &quot;ptxt&quot;
+                }, g).textContent = p.name;
+                if (!reg.hub) {
+                    mk(&quot;line&quot;, {
+                        x1: 0,
+                        y1: PIN_R - 4,
+                        x2: -2,
+                        y2: STEM,
+                        class: &quot;stem&quot;
+                    }, g);
+                    mk(&quot;circle&quot;, {
+                        cx: -2,
+                        cy: STEM,
+                        r: 8,
+                        class: &quot;tip&quot;
+                    }, g);
+                }
+                mk(&quot;circle&quot;, {
+                    cx: 0,
+                    cy: 0,
+                    r: PIN_R,
+                    class: &quot;pin&quot;
+                }, g);
+                mk(&quot;text&quot;, {
+                    x: 0,
+                    y: 1,
+                    class: &quot;pnum&quot;
+                }, g).textContent = p.num;
+                if (EDIT) g.addEventListener(&quot;pointerdown&quot;, e =&gt; { // перетаскивание в режиме #edit
+                    e.preventDefault();
+                    g.setPointerCapture(e.pointerId);
+                    const inv = svg.getScreenCTM().inverse();
+                    const mv = ev =&gt; {
+                        const pt = new DOMPoint(ev.clientX, ev.clientY).matrixTransform(inv);
+                        p.x = Math.round(pt.x);
+                        p.y = Math.round(pt.y);
+                        g.setAttribute(&quot;transform&quot;, `translate(${p.x},${p.y})`);
+                        if (ln) {
+                            ln.setAttribute(&quot;x2&quot;, p.x);
+                            ln.setAttribute(&quot;y2&quot;, p.y);
+                        }
+                    };
+                    const up = () =&gt; {
+                        g.removeEventListener(&quot;pointermove&quot;, mv);
+                        g.removeEventListener(&quot;pointerup&quot;, up);
+                        renderPins(reg);
+                        updatePins();
+                    };
+                    g.addEventListener(&quot;pointermove&quot;, mv);
+                    g.addEventListener(&quot;pointerup&quot;, up);
+                });
+            });
+        }
+
+        function updatePins() {
+            entries.forEach(r =&gt; r.g.classList.toggle(&quot;show&quot;, EDIT || r === active || r === hovered)); // и по наведению, и по клику
+        }
+
+        /* ---------- наведение / выбор ---------- */
+        const bringFront = it =&gt; {
+            if (it.type === &quot;region&quot; &amp;&amp; it.el.parentNode.lastChild !== it.el) it.el.parentNode.appendChild(it.el);
+        };
+
+        function hover(it) {
+            hovered = it;
+            bringFront(it);
+            updatePins();
+        }
+
+        function unhover() {
+            hovered = null;
+            updatePins();
+        }
+
+        function setActive(it, silent) {
+            if (active) active.el.classList.remove(&quot;active&quot;);
+            active = (active === it) ? null : it;
+            if (active) {
+                active.el.classList.add(&quot;active&quot;);
+                bringFront(active);
+            }
+            updatePins();
+            // сообщаем странице schools.html, какой район выбран (null = сброс)
+            if (!silent &amp;&amp; window.parent !== window) {
+                window.parent.postMessage({ type: &quot;zko:region&quot;, region: active ? active.kk : null }, &quot;*&quot;);
+            }
+        }
+
+        // страница → карта: подсветить район по имени (null = снять выделение), без ответного сообщения
+        const normName = s =&gt; String(s || &quot;&quot;).toLowerCase().replace(/ё/g, &quot;е&quot;)
+            .replace(/\s*(ауданы|аудан|район|қаласы)\s*/g, &quot; &quot;).replace(/\s+/g, &quot; &quot;).trim();
+        window.addEventListener(&quot;message&quot;, e =&gt; {
+            const d = e.data;
+            if (!d || d.type !== &quot;zko:highlight&quot;) return;
+            const key = normName(d.region);
+            const target = key ? entries.find(it =&gt; normName(it.kk) === key) : null;
+            if (target === active) return;
+            if (active) setActive(active, true);      // снять текущее
+            if (target) setActive(target, true);      // выбрать новое
+        });
+
+        function bind(it, target) {
+            target.addEventListener(&quot;mouseenter&quot;, () =&gt; hover(it));
+            target.addEventListener(&quot;mouseleave&quot;, unhover);
+            target.addEventListener(&quot;focus&quot;, () =&gt; hover(it));
+            target.addEventListener(&quot;blur&quot;, unhover);
+            target.addEventListener(&quot;click&quot;, e =&gt; {
+                e.stopPropagation();
+                setActive(it);
+            });
+            target.addEventListener(&quot;keydown&quot;, e =&gt; {
+                if (e.key === &quot;Enter&quot; || e.key === &quot; &quot;) {
+                    e.preventDefault();
+                    setActive(it);
+                }
+            });
+        }
+
+        DATA.regions.forEach((r, i) =&gt; {
+            const el = mk(&quot;path&quot;, {
+                d: r.d,
+                class: &quot;region&quot;,
+                &quot;fill-rule&quot;: &quot;evenodd&quot;,
+                tabindex: 0,
+                role: &quot;button&quot;,
+                &quot;aria-label&quot;: r.kk
+            }, gR);
+            el.style.setProperty(&quot;--f&quot;, shades[i % shades.length]);
+            regionPaths.push(el);
+            const fs = Math.max(14, Math.min(40, (r.r * 1.75) / (r.kk.length * 0.62)));
+            const labelEl = mk(&quot;text&quot;, {
+                x: r.lx,
+                y: r.ly,
+                class: &quot;rname&quot;,
+                &quot;font-size&quot;: fs.toFixed(1)
+            }, gL);
+            labelEl.textContent = r.kk;
+            const it = {
+                type: &quot;region&quot;,
+                kk: r.kk,
+                el,
+                labelEl,
+                g: mk(&quot;g&quot;, {
+                    class: &quot;pins&quot;
+                }, gP),
+                places: PLACES[r.kk] || (PLACES[r.kk] = []),
+                inside: (x, y) =&gt; el.isPointInFill(rawPts(x, y)),
+                bbox: () =&gt; el.getBBox()
+            };
+            entries.push(it);
+            bind(it, el);
+        });
+
+        // город Орал: точка + свои метки (школы города)
+        {
+            const cx = DATA.city.cx,
+                cy = DATA.city.cy;
+            const el = mk(&quot;g&quot;, {
+                class: &quot;city&quot;,
+                tabindex: 0,
+                role: &quot;button&quot;,
+                &quot;aria-label&quot;: &quot;Орал&quot;
+            }, gC);
+            mk(&quot;circle&quot;, {
+                cx,
+                cy,
+                r: 40,
+                class: &quot;hit&quot;
+            }, el);
+            mk(&quot;circle&quot;, {
+                cx,
+                cy,
+                r: 13,
+                class: &quot;dot&quot;
+            }, el);
+            const labelEl = mk(&quot;text&quot;, {
+                x: cx + 22,
+                y: cy + 9,
+                class: &quot;cname&quot;
+            }, el);
+            labelEl.textContent = &quot;Орал&quot;;
+            const it = {
+                type: &quot;city&quot;,
+                kk: &quot;Орал қаласы&quot;,
+                el,
+                labelEl,
+                g: mk(&quot;g&quot;, {
+                    class: &quot;pins&quot;
+                }, gP),
+                hub: {
+                    x: cx,
+                    y: cy
+                }, // линии сходятся в точке города. Настройки веера (необязательно): r0 — расстояние до первой метки, step — шаг по высоте, a0 — стартовый угол в градусах, da — на сколько сужается угол, amin — минимальный угол
+
+                places: PLACES[&quot;Орал қаласы&quot;] || (PLACES[&quot;Орал қаласы&quot;] = []),
+                inside: (x, y) =&gt; regionPaths.some(p =&gt; p.isPointInFill(rawPts(x, y))),
+                bbox: () =&gt; ({
+                    x: cx - 420,
+                    y: cy - 280,
+                    width: 840,
+                    height: 560
+                })
+            };
+            entries.push(it);
+            bind(it, el);
+        }
+        svg.addEventListener(&quot;click&quot;, () =&gt; {
+            if (active) setActive(active);
+        });
+
+        // для режима настройки: copyPlaces() в консоли
+        window.copyPlaces = () =&gt; {
+            const rep = (k, v) =&gt; (k === &quot;ax&quot; || k === &quot;ay&quot;) ? undefined : v;
+            const code = &quot;const PLACES = &quot; + JSON.stringify(PLACES, rep, 2) + &quot;;&quot;;
+            console.log(code);
+            (navigator.clipboard ? navigator.clipboard.writeText(code) : Promise.reject()).then(() =&gt; console.log(&quot;Скопировано в буфер обмена&quot;), () =&gt; console.log(&quot;Скопируйте текст выше&quot;));
+            return code;
+        };
+
+        const baseVB = `0 0 ${DATA.w} ${DATA.h}`;
+        let ready = false,
+            lastPlaces = null;
+        // если метки города выходят выше карты — добавляем место сверху
+        function fitTop() {
+            const city = entries.find(e =&gt; e.type === &quot;city&quot;);
+            const top = Math.min(0, ...city.places.map(p =&gt; (p.x != null ? p.y : p.ay) - PIN_R - 14));
+            svg.setAttribute(&quot;viewBox&quot;, top &lt; 0 ? `0 ${Math.floor(top)} ${DATA.w} ${DATA.h - Math.floor(top)}` : baseVB);
+        }
+        // страница → карта: список меток для выбранного года (район или «Орал қаласы» → метки с линиями от точки города)
+        function applyPlaces(list) {
+            entries.forEach(it =&gt; { it.places.length = 0; });
+            (list || []).forEach(p =&gt; {
+                const key = normName(p.region);
+                const it = entries.find(e =&gt; normName(e.kk) === key);
+                if (it) it.places.push({ num: p.num, name: p.name });
+            });
+            entries.forEach(renderPins);
+            updatePins();
+            fitTop();
+        }
+        window.addEventListener(&quot;message&quot;, e =&gt; {
+            const d = e.data;
+            if (!d || d.type !== &quot;zko:places&quot;) return;
+            lastPlaces = d.places || [];
+            if (ready) applyPlaces(lastPlaces);
+        });
+
+        (document.fonts &amp;&amp; document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() =&gt; {
+            entries.forEach(renderPins);
+            updatePins();
+            fitTop();
+            ready = true;
+            if (lastPlaces) applyPlaces(lastPlaces);
+            if (window.parent !== window) window.parent.postMessage({ type: &quot;zko:ready&quot; }, &quot;*&quot;);
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;"></iframe>
+                    </div>
+
+                    <div class="sm__side">
+                        <div class="sm__panel">
+                            <div class="sm__scroll">
+                                <table class="sm__table">
+                                    <thead>
+                                        <tr>
+                                            <th class="c-n">№</th>
+                                            <th>Мектеп</th>
+                                            <th id="smPlaceTh">Орналасқан жері</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="smBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="sg" id="gallery">
+            <div class="sg__inner">
+                <h2 class="sg__title">Мектептердің суреттері</h2>
+                <div class="sg__list" id="smGallery"></div>
+            </div>
+        </section>
+    </main>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+
+            <div class="footer__top">
+
+                <!-- Логотип -->
+                <a href="/" class="logo footer__logo">
+                    <span class="logo__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="#ffe27a" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
+                    </svg>
+                </span>
+
+                    <span class="logo__text">
+                    БҚО мектептері
+                    <small>Мектептердің даму картасы</small>
+                </span>
+                </a>
+
+                <!-- Навигация -->
+                <nav class="footer__nav">
+                    <a href="/">Басты бет</a>
+                    <a href="./schools.html">Мектептер</a>
+                    <a href="/#emergency">Апатты мектептер</a>
+                    <a href="/#shifts">Үш ауысымды</a>
+                    <a href="/#analysis">Талдау</a>
+                </nav>
+
+                <!-- Bilim -->
+                <div class="footer__external">
+                    <span>Ақпараттық ресурс</span>
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    Bilim <span>↗</span>
+                </a>
+                </div>
+
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2026 БҚО мектептері. Барлық құқықтар қорғалған.</p>
+                <p>Батыс Қазақстан облысы</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // ---------- данные ----------
+            var s = function(name, place, img) {
+                return {
+                    name: name,
+                    lines: place,
+                    region: place[0],
+                    img: img
+                };
+            };
+
+            // Каждый год — СВОЙ список школ. Картинки: images/schools/<год>/<номер>.png
+            var YEARS = {
+                2024: [
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2024/1.png'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2024/2.png'),
+                    s('№1 жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Ақсай қаласы'], './images/danger/2024/3.png'),
+                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачев ауылы'], './images/danger/2024/4.png'),
+                    s('А. Оразбаева атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Жәнібек ауылы'], './images/danger/2024/5.png'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2024/6.png'),
+                    s('Ғ. Қараш атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Борсы ауылы'], './images/danger/2024/7.png'),
+                    s('Қоныс негізгі орта мектебі', ['Қазталов ауданы', 'Қоныс ауылы'], './images/danger/2024/8.png'),
+                    s('Сатыбалды негізгі орта мектебі', ['Қазталов ауданы', 'Сатыбалды ауылы'], './images/danger/2024/9.png'),
+                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2024/10.png'),
+                    s('Төлен негізгі орта мектебі', ['Қаратөбе ауданы', 'Төлен ауылы'], './images/danger/2024/11.png'),
+                    s('Айнабұлақ негізгі орта мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2024/12.png'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы'], './images/danger/2024/13.png'),
+                    s('№27 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/14.png'),
+                    s('№43 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/15.png'),
+                    s('Дарынды балаларға арналған облыстық мамандандырылған №8 мектеп-лицейі', ['Орал қаласы'], './images/danger/2024/16.png')
+                ],
+                2025: [
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2025/1.png'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2025/2.png'),
+                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачево ауылы'], './images/danger/2025/3.png'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2025/4.png'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2025/5.png'),
+                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2025/6.png'),
+                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2025/7.png'),
+                    s('Айнабұлақ негізгі жалпы білім беретін мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2025/8.png')
+                ],
+                2026: [
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2026/1.png'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2026/2.png'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2026/3.png'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2026/4.png'),
+                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2026/5.png')
+                ]
+            };
+
+            // Реальное количество школ по годам (не зависит от длины списков в YEARS)
+            var COUNTS = {
+                2024: 16,
+                2025: 8,
+                2026: 5
+            };
+
+            [2024, 2025, 2026].forEach(function(y) {
+                var el = document.getElementById('cnt' + y);
+                if (el) el.textContent = COUNTS[y];
+            });
+
+            // ---------- элементы ----------
+            var iframe = document.getElementById('smMap');
+            var body = document.getElementById('smBody');
+            var tabs = [].slice.call(document.querySelectorAll('.sm__tab'));
+            var headYear = document.getElementById('smHeadYear');
+            var headText = document.getElementById('smHeadText');
+            var placeTh = document.getElementById('smPlaceTh');
+            var gallery = document.getElementById('smGallery');
+            var IMG_DIR = './images/schools/'; // картинки: images/schools/1.jpg … 14.jpg (по номеру школы 2023 года) или поле img у школы
+
+            var year = 2024;
+            var current = null; // выбранный район (фильтр), null = все
+            var selIdx = null; // выбранная строка (индекс в списке года)
+
+            var norm = function(t) {
+                return String(t || '').toLowerCase().replace(/ё/g, 'е')
+                    .replace(/\s*(ауданы|аудан|район|қаласы)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+            };
+            var esc = function(t) {
+                return String(t).replace(/[&<>"]/g, function(c) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;'
+                    }[c];
+                });
+            };
+            var sameRegion = function(sc, reg) {
+                // точное сравнение названия района (до первой запятой)
+                if (!reg) return true;
+                return norm(String(reg).split(',')[0]) === norm(String(sc.region).split(',')[0]);
+            };
+            // таблица: фильтр по району, выбранному на карте
+            var matches = function(sc) {
+                return sameRegion(sc, current);
+            };
+            // галерея: если выбрана строка/картинка — только эта школа, иначе — фильтр по району с карты
+            var matchesGallery = function(sc, i) {
+                return selIdx != null ? i === selIdx : sameRegion(sc, current);
+            };
+
+            // ---------- галерея ----------
+            function imgSrc(sc) {
+                return sc.img || '';
+            }
+
+            function renderGallery() {
+                var list = YEARS[year],
+                    n = 0,
+                    html = '';
+                list.forEach(function(sc, i) {
+                    if (!matchesGallery(sc, i)) return;
+                    n++;
+                    html += '<figure class="sg__item' + (i === selIdx ? ' is-selected' : '') + '" data-idx="' + i + '">' +
+                        '<img class="sg__img" loading="lazy" src="' + esc(imgSrc(sc)) + '" alt="' + esc(sc.name) + '">' +
+                        '<div class="sg__ph">Сурет жоқ</div>' +
+                        '<figcaption class="sg__cap"><b>' + (selIdx != null ? i + 1 : n) + '.</b><span><strong>' + esc(sc.name) + '</strong><br>' +
+                        sc.lines.map(esc).join(', ') + '</span></figcaption></figure>';
+                });
+                gallery.innerHTML = html;
+                [].forEach.call(gallery.querySelectorAll('img'), function(img) {
+                    var miss = function() {
+                        img.parentNode.classList.add('is-missing');
+                    };
+                    img.addEventListener('error', miss);
+                });
+            }
+
+            // ---------- связь с картой ----------
+            // метки на карте строятся из списка школ выбранного года (в т.ч. «Орал қаласы» — линии от точки города)
+            function villageOf(sc) {
+                for (var i = 1; i < sc.lines.length; i++) {
+                    if (/ауылы\s*$/i.test(sc.lines[i])) return sc.lines[i].trim();
+                }
+                return String(sc.lines[1] || sc.name).trim();
+            }
+
+            function sendPlaces() {
+                if (!iframe.contentWindow) return;
+                iframe.contentWindow.postMessage({
+                    type: 'zko:places',
+                    places: YEARS[year].map(function(sc, i) {
+                        return {
+                            region: sc.region,
+                            num: i + 1,
+                            name: villageOf(sc)
+                        };
+                    })
+                }, '*');
+            }
+            iframe.addEventListener('load', sendPlaces);
+
+            function notifyMap(region) {
+                if (iframe.contentWindow) iframe.contentWindow.postMessage({
+                    type: 'zko:highlight',
+                    region: region
+                }, '*');
+            }
+
+            // ---------- отрисовка ----------
+            function renderTable() {
+                var list = YEARS[year],
+                    n = 0,
+                    html = '';
+                list.forEach(function(sc, i) {
+                    if (!matches(sc)) return;
+                    n++;
+                    html += '<tr data-idx="' + i + '"' + (i === selIdx ? ' class="is-selected"' : '') + '>' +
+                        '<td class="c-n"><span class="sm__num">' + n + '</span></td>' +
+                        '<td class="c-school">' + esc(sc.name) + '</td>' +
+                        '<td class="c-place">' + sc.lines.map(esc).join(',<br>') + '</td></tr>';
+                });
+                if (!n) html = '<tr class="sm__empty"><td colspan="3">Бұл ауданда мектеп жоқ</td></tr>';
+                body.innerHTML = html;
+                renderGallery();
+
+            }
+
+            function renderHead() {
+                headYear.textContent = year + ' жыл -';
+                headText.textContent = COUNTS[year] + (year === 2026 ? ' мектептің жөңдеуі басталды' : ' мектеп жөңделді');
+                placeTh.textContent = year === 2026 ? 'Жөңдеу жерлері' : 'Орналасқан жері';
+                tabs.forEach(function(t) {
+                    t.classList.toggle('is-active', +t.dataset.year === year);
+                });
+            }
+
+            // ---------- действия ----------
+            function setYear(y) {
+                if (!YEARS[y]) return;
+                year = y;
+                selIdx = null;
+                renderHead();
+                renderTable();
+                sendPlaces();
+            }
+
+            // фильтр по району (кнопка или клик по карте) → карта подсвечивает тот же район
+            function setFilter(region) {
+                current = region;
+                selIdx = null;
+                renderTable();
+                notifyMap(region);
+            }
+
+            // клик по строке → подсветка района на карте
+            body.addEventListener('click', function(e) {
+                var tr = e.target.closest('tr[data-idx]');
+                if (!tr) return;
+                var idx = +tr.dataset.idx;
+                if (selIdx === idx) {
+                    selIdx = null;
+                    renderTable();
+                    notifyMap(current);
+                    return;
+                }
+                selIdx = idx;
+                renderTable();
+                notifyMap(YEARS[year][idx].region);
+            });
+
+            // клик по картинке — то же, что клик по строке: выделить школу и её район на карте
+            gallery.addEventListener('click', function(e) {
+                var fig = e.target.closest('.sg__item');
+                if (!fig) return;
+                var idx = +fig.dataset.idx;
+                if (selIdx === idx) {
+                    selIdx = null;
+                    renderTable();
+                    notifyMap(current);
+                    return;
+                }
+                selIdx = idx;
+                renderTable();
+                notifyMap(YEARS[year][idx].region);
+            });
+
+            // клик по району на карте → фильтр таблицы (повторный клик — сброс)
+            window.addEventListener('message', function(e) {
+                var d = e.data;
+                if (d && d.type === 'zko:ready' && e.source === iframe.contentWindow) {
+                    sendPlaces();
+                    return;
+                }
+                if (!d || d.type !== 'zko:region' || e.source !== iframe.contentWindow) return;
+                var same = current && d.region && norm(current) === norm(d.region);
+                setFilter(same || !d.region ? null : d.region);
+            });
+
+            tabs.forEach(function(t) {
+                t.addEventListener('click', function() {
+                    setYear(+t.dataset.year);
+                });
+            });
+
+            // карточки с годами вверху страницы переключают вкладку и прокручивают к блоку
+            [].forEach.call(document.querySelectorAll('.ycard'), function(a) {
+                var m = /#year-(\d{4})/.exec(a.getAttribute('href') || '');
+                if (!m) return;
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setYear(+m[1]);
+                    document.getElementById('schools').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+
+            var h = /^#year-(\d{4})$/.exec(location.hash);
+            if (h && YEARS[+h[1]]) year = +h[1];
+            renderHead();
+            renderTable();
+        })();
+    </script>
+</body>
+
+</html>

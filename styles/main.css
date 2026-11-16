@@ -1,0 +1,148 @@
+          :root {
+             --gold: #f0b030;
+             --gold-light: #ffe27a;
+             --bg: #fafbfe;
+             --header-h: 76px;
+         }
+         
+         * {
+             box-sizing: border-box;
+         }
+         
+         html,
+         body {
+             margin: 0;
+             background: var(--bg);
+             color: #fff;
+             font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+             overscroll-behavior-y: none;
+         }
+         
+         a {
+             color: inherit;
+             text-decoration: none;
+         }
+         
+         .hero {
+             position: relative;
+             height: 100vh;
+             min-height: 520px;
+             overflow: hidden;
+             background: var(--bg);
+         }
+         
+         .slide {
+             position: absolute;
+             inset: 0;
+             opacity: 0;
+             transition: opacity 1.2s ease;
+         }
+         
+         .slide.active {
+             opacity: 1;
+             z-index: 1;
+         }
+         
+         .slide img {
+             margin-top: 65px;
+             width: 100%;
+             height: 100%;
+             object-fit: contain;
+             display: block;
+             /* transform: scale(1.08); */
+         }
+         /* плавный «наезд» камеры, пока слайд активен */
+         
+         .slide.active img {
+             /* animation: zoom 10s linear forwards; */
+         }
+         
+         @keyframes zoom {
+             from {
+                 transform: scale(1.08);
+             }
+             to {
+                 transform: scale(1);
+             }
+         }
+         
+         .hero::after {
+             content: "";
+             position: absolute;
+             inset: 0;
+             z-index: 2;
+             pointer-events: none;
+             background: linear-gradient(180deg, rgba(6, 20, 58, .55) 0%, transparent 25%, transparent 75%, rgba(6, 20, 58, .7) 100%);
+         }
+         
+         .arrow {
+             position: absolute;
+             top: 50%;
+             z-index: 5;
+             width: 54px;
+             height: 54px;
+             transform: translateY(-50%);
+             border-radius: 50%;
+             border: 2px solid var(--gold);
+             background: rgba(6, 20, 58, .55);
+             color: var(--gold-light);
+             font-size: 26px;
+             cursor: pointer;
+             display: grid;
+             place-items: center;
+             transition: background .2s, box-shadow .2s;
+         }
+         
+         .arrow:hover {
+             background: rgba(18, 53, 138, .85);
+             box-shadow: 0 0 18px rgba(240, 176, 48, .6);
+         }
+         
+         .arrow--prev {
+             left: 24px;
+         }
+         
+         .arrow--next {
+             right: 24px;
+         }
+         
+         .dots {
+             position: absolute;
+             left: 50%;
+             bottom: 34px;
+             z-index: 5;
+             transform: translateX(-50%);
+             display: flex;
+             gap: 12px;
+         }
+         
+         .dot {
+             position: relative;
+             width: 56px;
+             height: 6px;
+             padding: 0;
+             border: none;
+             border-radius: 3px;
+             background: rgba(255, 255, 255, .3);
+             overflow: hidden;
+             cursor: pointer;
+         }
+         /* полоска прогресса — показывает 10 секунд до смены */
+         
+         .dot i {
+             position: absolute;
+             inset: 0;
+             background: linear-gradient(90deg, var(--gold), var(--gold-light));
+             transform: scaleX(0);
+             transform-origin: left;
+         }
+         
+         .dot.active i {
+             animation: progress 10s linear forwards;
+         }
+         
+         @keyframes progress {
+             to {
+                 transform: scaleX(1);
+             }
+         }

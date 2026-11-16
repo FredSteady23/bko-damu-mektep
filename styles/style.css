@@ -1,0 +1,24 @@
+         :root {
+            --gold: #f0b030;
+            --gold-light: #ffe27a;
+            --bg: #fafbfe;
+            --header-h: 76px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: #fff;
+            font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+            overscroll-behavior-y: none;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+        }

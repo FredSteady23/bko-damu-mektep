@@ -1,0 +1,256 @@
+/* Блок «2023–2026 жылдардағы мектеп құрылысы» между header и footer */
+
+.overview {
+    --ov-bg: #0b2a6b;
+    --ov-bg-dark: #071c4a;
+    --ov-gold: #ffe27a;
+    --ov-gold-dark: #d9a62b;
+    --ov-navy: #0b1f4d;
+    background: radial-gradient(ellipse at 50% 0%, #153a8a 0%, transparent 60%), linear-gradient(180deg, var(--ov-bg) 0%, var(--ov-bg-dark) 100%);
+    padding: 56px 20px 64px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.overview__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+
+/* Заголовок */
+
+.overview__title {
+    margin: 0 0 48px;
+    text-align: center;
+    font-size: clamp(22px, 3.4vw, 40px);
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--ov-gold);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.overview__title span {
+    display: block;
+    color: #fff;
+}
+
+
+/* Сетка карточек */
+
+.overview__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.ycard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* padding-top: 22px; */
+    /* место под бейдж */
+    text-decoration: none;
+    color: var(--ov-navy);
+    background: #fff;
+    border: 3px solid var(--ov-gold);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.ycard:hover,
+.ycard:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(255, 226, 122, 0.45);
+    outline: none;
+}
+
+
+/* Бейдж с годом */
+
+.ycard__badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 22px;
+    border-radius: 0 0 18px 18px;
+    background: var(--ov-navy);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.ycard__badge svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--ov-gold);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* Слот под фото здания: просто положи <img> внутрь .ycard__photo */
+
+.ycard__photo {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    /* margin-top: 12px; */
+    background: linear-gradient(180deg, #dbe7f7 0%, #f4f8fd 100%);
+}
+
+.ycard__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Плавное растворение фото в белый низ карточки */
+
+.ycard__photo::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+    pointer-events: none;
+}
+
+
+/* Число + подпись */
+
+.ycard__body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 22px 26px;
+    background: #fff;
+}
+
+
+/* Золотой уголок справа внизу */
+
+.ycard__body::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    height: 22px;
+    background: linear-gradient(135deg, transparent 40%, var(--ov-gold-dark) 100%);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.ycard__num {
+    font-size: clamp(56px, 6vw, 84px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--ov-navy);
+}
+
+.ycard__text {
+    font-size: clamp(16px, 1.7vw, 22px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ov-navy);
+}
+
+
+/* Итоговая плашка */
+
+.overview__total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 48px auto 0;
+    padding: 16px 56px;
+    border-radius: 999px;
+    border: 2px solid #fff3b8;
+    background: linear-gradient(180deg, #ffeaa0 0%, #f0c354 55%, #e0a932 100%);
+    color: var(--ov-navy);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.overview__total-icon {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    fill: none;
+    stroke: var(--ov-navy);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.overview__total-text {
+    padding-left: 22px;
+    border-left: 2px solid rgba(11, 31, 77, 0.55);
+    font-size: clamp(22px, 3vw, 40px);
+    /* font-size: 26px; */
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.overview__total-text b {
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+
+/* Плавная прокрутка к якорям */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* Планшет: 2×2 */
+
+@media (max-width: 900px) {
+    .overview__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+    }
+}
+
+
+/* Телефон: в одну колонку */
+
+@media (max-width: 560px) {
+    .overview {
+        padding: 36px 16px 44px;
+    }
+    .overview__title {
+        margin-bottom: 32px;
+    }
+    .overview__grid {
+        grid-template-columns: 1fr;
+    }
+    .overview__total {
+        gap: 14px;
+        padding: 12px 24px;
+        margin-top: 32px;
+    }
+    .overview__total-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .overview__total-text {
+        padding-left: 14px;
+    }
+}
