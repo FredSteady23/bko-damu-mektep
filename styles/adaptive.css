@@ -18,7 +18,7 @@
          z-index: -1;
      }
      .nav.open {
-         transform: translateY(0);
+         transform: translateY(+135px);
      }
      .nav .btn-map {
          margin: 8px 0 0;
