@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мектеп көрсеткіштері — Батыс Қазақстан облысы</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="./styles/footer.css">
+    <link rel="shortcut icon" href="./images/icon.webp" type="image/x-icon">
+    <style>
+        .header {
+            background-color: rgba(6, 20, 58, .92);
+        }
+        /* ===== Мобильная адаптация ===== */
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        img,
+        svg {
+            max-width: 100%;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        @media (max-width: 900px) {
+            .footer__top {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+            .footer__nav {
+                flex-wrap: wrap;
+                gap: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                min-width: 0;
+            }
+            .logo__text {
+                font-size: 15px;
+                line-height: 1.2;
+            }
+            .logo__text small {
+                font-size: 11px;
+                display: block;
+            }
+            /* Выпадающее меню: место задаёт top, transform только для анимации */
+            .header__inner {
+                position: relative;
+            }
+            .header .nav {
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: rgba(6, 20, 58, .98) !important;
+                max-height: calc(100vh - var(--header-h));
+                overflow-y: auto;
+                transform: translateY(-16px) !important;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: transform .25s ease, opacity .25s ease, visibility .25s;
+            }
+            .header .nav.open {
+                transform: translateY(0) !important;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .header .nav a {
+                padding: 16px 20px;
+                font-size: 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+            }
+            /* Слайдер */
+            .hero {
+                height: auto;
+                min-height: 0;
+                aspect-ratio: 16 / 10;
+            }
+            .hero .slide,
+            .hero .slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                margin-top: 11px;
+            }
+            .arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            .arrow--prev {
+                left: 8px;
+            }
+            .arrow--next {
+                right: 8px;
+            }
+            .dots {
+                bottom: 10px;
+            }
+            /* Подвал */
+            .footer__inner {
+                padding: 28px 16px;
+            }
+            .footer__top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .footer__nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .footer__bottom {
+                flex-direction: column;
+                gap: 6px;
+                text-align: left;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo__text {
+                font-size: 14px;
+            }
+            .hero {
+                aspect-ratio: 4 / 3;
+            }
+        }
+        
+        .header {
+            background-color: rgba(6, 20, 58, .92);
+        }
+        
+        .kpi {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(24px, 3.4vw, 44px) clamp(16px, 3.6vw, 48px) clamp(32px, 4vw, 56px);
+            background: #fff;
+            padding-top: 120px;
+        }
+        
+        .kpi__inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .kpi__head {
+            text-align: center;
+            margin-bottom: clamp(20px, 2.6vw, 32px);
+        }
+        
+        .kpi__eyebrow {
+            margin: 0 0 6px;
+            font-size: clamp(11px, 1.05vw, 14px);
+            font-weight: 800;
+            letter-spacing: .2em;
+            color: #e8a916;
+        }
+        
+        .kpi__title {
+            margin: 0;
+            font-size: clamp(24px, 3vw, 40px);
+            font-weight: 800;
+            line-height: 1.1;
+            color: #0a3b7a;
+        }
+        
+        .kpi__sub {
+            margin: 10px 0 12px;
+            font-size: clamp(12px, 1.2vw, 16px);
+            font-weight: 700;
+            letter-spacing: .06em;
+            color: #43608f;
+        }
+        
+        .kpi__pill {
+            display: inline-block;
+            padding: 9px 30px;
+            border-radius: 12px;
+            border: 2px solid #f0b030;
+            background: #0a3b7a;
+            color: #fff;
+            font-size: clamp(11px, 1.1vw, 14px);
+            font-weight: 800;
+            letter-spacing: .04em;
+        }
+        
+        .kpi__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: clamp(14px, 2.4vw, 34px);
+            align-items: start;
+        }
+        /* ---- карточка ---- */
+        
+        .card {
+            --c: #14c8bd;
+            background: #fff;
+            border-radius: 28px;
+            border: 1px solid #dbe6f7;
+            box-shadow: 0 14px 38px rgba(10, 59, 122, .12);
+            overflow: hidden;
+        }
+        
+        .card__head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: clamp(66px, 7vw, 86px);
+            padding: 0 clamp(14px, 1.8vw, 26px);
+            background: #0a3b7a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 28px;
+            transition: background .2s;
+        }
+        
+        .card__head:hover,
+        .card__head:focus-visible {
+            background: #072a5a;
+            outline: none;
+        }
+        
+        .card__icon {
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            width: clamp(40px, 4.2vw, 54px);
+            height: clamp(40px, 4.2vw, 54px);
+            border-radius: 50%;
+            background: var(--c);
+        }
+        
+        .card__icon svg {
+            width: 56%;
+            height: 56%;
+        }
+        
+        .card__name {
+            flex: 1;
+            margin: 0;
+            text-align: center;
+            font-size: clamp(13px, 1.35vw, 18px);
+            font-weight: 800;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        
+        .card__body {
+            padding: clamp(22px, 2.8vw, 38px) clamp(14px, 3.6vw, 48px) clamp(16px, 2vw, 26px);
+        }
+        /* ---- график ---- */
+        
+        .chart {
+            position: relative;
+            --plot-h: clamp(210px, 19vw, 262px);
+        }
+        
+        .chart__plot {
+            position: relative;
+            height: var(--plot-h);
+        }
+        
+        .chart__grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        
+        .chart__grid i {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #cfdcf2;
+        }
+        
+        .chart__bars {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 0 2%;
+        }
+        
+        .bar {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+            flex: 1 1 0;
+            max-width: 17%;
+            min-width: 38px;
+            text-decoration: none;
+            outline: none;
+        }
+        /* бледная «тень-колонна» за столбцом */
+        
+        .bar::before {
+            content: "";
+            position: absolute;
+            left: -26%;
+            right: -26%;
+            bottom: 0;
+            top: 8%;
+            background: linear-gradient(180deg, rgba(10, 59, 122, 0) 0%, rgba(10, 59, 122, .06) 100%);
+            pointer-events: none;
+        }
+        
+        .bar__fill {
+            position: relative;
+            width: 100%;
+            height: 0;
+            border-radius: 8px;
+            border: 1px solid #f0b030;
+            background: var(--c);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 8px;
+            color: #fff;
+            font-size: clamp(15px, 1.6vw, 22px);
+            font-weight: 800;
+            transition: height .9s cubic-bezier(.2, .8, .2, 1), transform .2s ease, filter .2s ease, box-shadow .2s ease;
+        }
+        
+        .chart.is-ready .bar__fill {
+            height: var(--h);
+        }
+        
+        .bar:hover .bar__fill,
+        .bar:focus-visible .bar__fill {
+            transform: translateY(-6px);
+            filter: brightness(1.06);
+            box-shadow: 0 10px 22px rgba(10, 59, 122, .28);
+        }
+        
+        .bar:focus-visible .bar__fill {
+            outline: 3px solid #0a3b7a;
+            outline-offset: 3px;
+        }
+        
+        .chart__years {
+            display: flex;
+            justify-content: space-around;
+            padding: 0 2%;
+            margin-top: 14px;
+        }
+        
+        .chart__years a {
+            flex: 1 1 0;
+            max-width: 17%;
+            min-width: 38px;
+            text-align: center;
+            font-size: clamp(11px, 1vw, 13px);
+            font-weight: 800;
+            color: #0a3b7a;
+            text-decoration: none;
+        }
+        
+        .chart__years a:hover {
+            color: #e8a916;
+        }
+        
+        .chart__trend {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+        }
+        
+        .chart__trend path {
+            fill: none;
+            stroke: var(--c);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 7 9;
+            opacity: 0;
+            transition: opacity .6s ease .8s;
+        }
+        
+        .chart.is-ready .chart__trend path {
+            opacity: .75;
+        }
+        
+        @media (max-width: 760px) {
+            .tl__years {
+                display: none;
+            }
+            .tl__row {
+                grid-template-columns: 1fr;
+            }
+            .row__label {
+                padding: 16px 16px 8px 24px;
+                border-right: 0;
+            }
+            .row__years {
+                display: grid;
+            }
+            .row__plot {
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 980px) {
+            .kpi__grid {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+                margin: 0 auto;
+            }
+            .chart {
+                --plot-h: 260px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .node,
+            .bar__fill,
+            .chart__trend path {
+                transition: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__inner header__result">
+            <a href="index.html" class="logo">
+                <span class="logo__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffe27a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
+                    </svg>
+                </span>
+                <span class="logo__text">
+                    БҚО мектептері
+                    <small>Мектептердің даму картасы</small>
+                </span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="./schools.html">38 жаңа мектеп</a>
+                <a href="./emergency-schools.html">Апатты мектептер</a>
+                <a href="./shifts.html">Үш ауысымды</a>
+                <a href="#result">Талдау</a>
+            </nav>
+
+            <button class="burger" id="burger" aria-label="Мәзір" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+
+    <main>
+        <!-- БЛОК 1 -->
+        <section class="kpi" id="korsetkishter">
+            <div class="kpi__inner">
+                <header class="kpi__head">
+                    <p class="kpi__eyebrow">БАТЫС ҚАЗАҚСТАН ОБЛЫСЫ</p>
+                    <h1 class="kpi__title">МЕКТЕП КӨРСЕТКІШТЕРІ</h1>
+                    <p class="kpi__sub">2023–2026 ЖЫЛДАРЫНЫҢ ДИНАМИКАСЫ</p>
+                    <!-- <span class="kpi__pill">ҮШ БӨЛІМ БОЙЫНША ГРАФИК КЕСТЕ</span> -->
+                </header>
+
+                <div class="kpi__grid" id="kpiGrid"></div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="footer">
+        <div class="footer__inner">
+
+            <div class="footer__top">
+
+                <!-- Логотип -->
+                <a href="/" class="logo footer__logo">
+                    <span class="logo__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="#ffe27a" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
+                    </svg>
+                </span>
+
+                    <span class="logo__text">
+                    БҚО мектептері
+                    <small>Мектептердің даму картасы</small>
+                </span>
+                </a>
+
+                <!-- Навигация -->
+                <nav class="footer__nav">
+                    <a href="/">Басты бет</a>
+                    <a href="./schools.html">Мектептер</a>
+                    <a href="./emergency-schools.html">Апатты мектептер</a>
+                    <a href="./shifts.html">Үш ауысымды</a>
+                    <a href="./result.html">Талдау</a>
+                </nav>
+
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2026 БҚО мектептері. Барлық құқықтар қорғалған.</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // ====== ДАННЫЕ И ССЫЛКИ — меняйте только здесь ======
+        var KPI_MAX = 18; // верхняя линия сетки (общая шкала для всех графиков)
+        var KPI_DATA = [{
+            key: 'new',
+            title: ['ЖАҢА САЛЫНҒАН', 'МЕКТЕП'],
+            color: '#14c8bd',
+            icon: 'school',
+            href: './schools.html', // страница со списком, открывается на нужном годе: #year-2024
+            label: 'Жаңа салынған мектептер',
+            years: [
+                [2023, 14],
+                [2024, 8],
+                [2025, 8],
+                [2026, 8]
+            ]
+        }, {
+            key: 'apatty',
+            title: ['АПАТТЫ', 'МЕКТЕП'],
+            color: '#ff5f6a',
+            icon: 'alert',
+            href: './emergency-schools.html',
+            label: 'Апатты мектептер',
+            years: [
+                [2024, 16],
+                [2025, 8],
+                [2026, 5]
+            ]
+        }, {
+            key: 'shifts',
+            title: ['3 АУЫСЫМДЫ', 'МЕКТЕПТЕР'],
+            color: '#f6b73c',
+            icon: 'clock',
+            href: './shifts.html',
+            label: '3 ауысымды мектептер',
+            years: [
+                [2024, 13],
+                [2025, 8],
+                [2026, 5]
+            ]
+        }];
+
+        var KPI_ICONS = {
+            school: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l9-6 9 6v11"/><path d="M9 21v-6h6v6"/><path d="M12 4V2"/><path d="M7 12h2M15 12h2"/></svg>',
+            alert: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v5"/><path d="M12 17.8v.2"/></svg>',
+            clock: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+        };
+    </script>
+
+    <!-- Бургер-меню -->
+    <script>
+        (function() {
+            var burger = document.getElementById('burger');
+            var nav = document.getElementById('nav');
+
+            function close() {
+                burger.classList.remove('open');
+                nav.classList.remove('open');
+                burger.setAttribute('aria-expanded', 'false');
+            }
+            burger.addEventListener('click', function() {
+                var open = burger.classList.toggle('open');
+                nav.classList.toggle('open', open);
+                burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') close();
+            });
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 900) close();
+            });
+        })();
+    </script>
+
+    <!-- Блок 1: столбчатые графики -->
+    <script>
+        (function() {
+            var MAX = KPI_MAX,
+                DATA = KPI_DATA,
+                ICONS = KPI_ICONS;
+
+            var grid = document.getElementById('kpiGrid');
+
+            function card(d) {
+                var el = document.createElement('article');
+                el.className = 'card';
+                el.style.setProperty('--c', d.color);
+
+                var bars = d.years.map(function(y) {
+                    var pct = (y[1] / MAX * 100).toFixed(2);
+                    return '<a class="bar" href="' + d.href + '#year-' + y[0] + '" title="' + y[0] + ' жыл — ' + y[1] + ' ' + d.label + '" aria-label="' + y[0] + ' жыл: ' + y[1] + ' ' + d.label + '">' +
+                        '<span class="bar__fill" style="--h:' + pct + '%">' + y[1] + '</span></a>';
+                }).join('');
+                var years = d.years.map(function(y) {
+                    return '<a href="' + d.href + '#year-' + y[0] + '">' + y[0] + '</a>';
+                }).join('');
+
+                el.innerHTML =
+                    '<a class="card__head" href="' + d.href + '">' +
+                    '<span class="card__icon">' + ICONS[d.icon] + '</span>' +
+                    '<h2 class="card__name">' + d.title[0] + '<br>' + d.title[1] + '</h2></a>' +
+                    '<div class="card__body"><div class="chart">' +
+                    '<div class="chart__plot">' +
+                    '<div class="chart__grid"><i style="bottom:0"></i><i style="bottom:33.333%"></i><i style="bottom:66.666%"></i><i style="bottom:100%"></i></div>' +
+                    '<div class="chart__bars">' + bars + '</div>' +
+                    '<svg class="chart__trend" aria-hidden="true"><path d=""/></svg>' +
+                    '</div>' +
+                    '<div class="chart__years">' + years + '</div>' +
+                    '</div></div>';
+                return el;
+            }
+
+            // плавная пунктирная линия тренда над столбцами
+            function drawTrend(chart) {
+                var plot = chart.querySelector('.chart__plot');
+                var pr = plot.getBoundingClientRect();
+                var pts = [].map.call(chart.querySelectorAll('.bar'), function(b) {
+                    var pct = parseFloat(b.querySelector('.bar__fill').style.getPropertyValue('--h')) / 100;
+                    var r = b.getBoundingClientRect();
+                    return [r.left - pr.left + r.width / 2, pr.height * (1 - pct) - 34];
+                });
+                if (pts.length < 2) return;
+                // Catmull-Rom → Безье
+                var d = 'M' + pts[0][0] + ' ' + pts[0][1];
+                for (var i = 0; i < pts.length - 1; i++) {
+                    var p0 = pts[i - 1] || pts[i],
+                        p1 = pts[i],
+                        p2 = pts[i + 1],
+                        p3 = pts[i + 2] || p2;
+                    var c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+                    var c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+                    d += ' C' + c1[0] + ' ' + c1[1] + ',' + c2[0] + ' ' + c2[1] + ',' + p2[0] + ' ' + p2[1];
+                }
+                chart.querySelector('.chart__trend path').setAttribute('d', d);
+            }
+
+            DATA.forEach(function(d) {
+                grid.appendChild(card(d));
+            });
+
+            var charts = [].slice.call(document.querySelectorAll('.chart'));
+            charts.forEach(drawTrend);
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    charts.forEach(function(c) {
+                        c.classList.add('is-ready');
+                    });
+                });
+            });
+            window.addEventListener('resize', function() {
+                charts.forEach(drawTrend);
+            });
+        })();
+    </script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
