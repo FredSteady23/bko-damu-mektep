@@ -14,8 +14,141 @@
     <link rel="stylesheet" href="/styles/schools.css">
     <link rel="stylesheet" href="/styles/year-block.css">
     <link rel="stylesheet" href="/styles/adaptive.css">
-    <link rel="shortcut icon" href="./images/icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./images/icon.webp" type="image/x-icon">
     <style>
+        .header {
+            background-color: rgba(6, 20, 58, .92);
+        }
+        /* ===== Мобильная адаптация ===== */
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        img,
+        svg {
+            max-width: 100%;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        @media (max-width: 900px) {
+            .footer__top {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+            .footer__nav {
+                flex-wrap: wrap;
+                gap: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                min-width: 0;
+            }
+            .logo__text {
+                font-size: 15px;
+                line-height: 1.2;
+            }
+            .logo__text small {
+                font-size: 11px;
+                display: block;
+            }
+            /* Выпадающее меню: место задаёт top, transform только для анимации */
+            .header__inner {
+                position: relative;
+            }
+            .header .nav {
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: rgba(6, 20, 58, .98) !important;
+                max-height: calc(100vh - var(--header-h));
+                overflow-y: auto;
+                transform: translateY(-16px) !important;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: transform .25s ease, opacity .25s ease, visibility .25s;
+            }
+            .header .nav.open {
+                transform: translateY(0) !important;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .header .nav a {
+                padding: 16px 20px;
+                font-size: 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+            }
+            /* Слайдер */
+            .hero {
+                height: auto;
+                min-height: 0;
+                aspect-ratio: 16 / 10;
+            }
+            .hero .slide,
+            .hero .slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                margin-top: 11px;
+            }
+            .arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            .arrow--prev {
+                left: 8px;
+            }
+            .arrow--next {
+                right: 8px;
+            }
+            .dots {
+                bottom: 10px;
+            }
+            /* Подвал */
+            .footer__inner {
+                padding: 28px 16px;
+            }
+            .footer__top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .footer__nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .footer__bottom {
+                flex-direction: column;
+                gap: 6px;
+                text-align: left;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo__text {
+                font-size: 14px;
+            }
+            .hero {
+                aspect-ratio: 4 / 3;
+            }
+        }
+        
         .overview__grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -329,6 +462,60 @@
             .sm__side {
                 height: 520px;
             }
+            .overview__grid {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 15px;
+            }
+        }
+        /* ===== Кнопка «Жоғарыға» (слева внизу) ===== */
+        
+        .to-top {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 900;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 2px solid #ffe27a;
+            border-radius: 50%;
+            background: rgba(6, 20, 58, .92);
+            color: #ffe27a;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(6, 20, 58, .35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity .25s ease, transform .25s ease, visibility .25s, background .15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .to-top.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .to-top:hover {
+            background: #12358a;
+        }
+        
+        .to-top svg {
+            width: 22px;
+            height: 22px;
+        }
+        
+        @media (max-width: 768px) {
+            .to-top {
+                left: 12px;
+                bottom: 12px;
+                width: 44px;
+                height: 44px;
+            }
         }
     </style>
 </head>
@@ -378,7 +565,7 @@
                             2024 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/work.png" alt="первая картина">
+                            <img src="./images/cards/work.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2024">16</strong>
@@ -392,7 +579,7 @@
                             2025 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/work.png" alt="первая картина">
+                            <img src="./images/cards/work.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2025">8</strong>
@@ -406,7 +593,7 @@
                             2026 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/work.png" alt="первая картина">
+                            <img src="./images/cards/work.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2026">5</strong>
@@ -1387,24 +1574,15 @@
                 <nav class="footer__nav">
                     <a href="/">Басты бет</a>
                     <a href="./schools.html">Мектептер</a>
-                    <a href="/#emergency">Апатты мектептер</a>
-                    <a href="/#shifts">Үш ауысымды</a>
-                    <a href="/#analysis">Талдау</a>
+                    <a href="./emergency-schools.html">Апатты мектептер</a>
+                    <a href="./shifts.html">Үш ауысымды</a>
+                    <a href="./result.html">Талдау</a>
                 </nav>
-
-                <!-- Bilim -->
-                <div class="footer__external">
-                    <span>Ақпараттық ресурс</span>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                    Bilim <span>↗</span>
-                </a>
-                </div>
 
             </div>
 
             <div class="footer__bottom">
                 <p>© 2026 БҚО мектептері. Барлық құқықтар қорғалған.</p>
-                <p>Батыс Қазақстан облысы</p>
             </div>
 
         </div>
@@ -1425,39 +1603,39 @@
             // Каждый год — СВОЙ список школ. Картинки: images/schools/<год>/<номер>.png
             var YEARS = {
                 2024: [
-                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2024/1.png'),
-                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2024/2.png'),
-                    s('№1 жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Ақсай қаласы'], './images/danger/2024/3.png'),
-                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачев ауылы'], './images/danger/2024/4.png'),
-                    s('А. Оразбаева атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Жәнібек ауылы'], './images/danger/2024/5.png'),
-                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2024/6.png'),
-                    s('Ғ. Қараш атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Борсы ауылы'], './images/danger/2024/7.png'),
-                    s('Қоныс негізгі орта мектебі', ['Қазталов ауданы', 'Қоныс ауылы'], './images/danger/2024/8.png'),
-                    s('Сатыбалды негізгі орта мектебі', ['Қазталов ауданы', 'Сатыбалды ауылы'], './images/danger/2024/9.png'),
-                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2024/10.png'),
-                    s('Төлен негізгі орта мектебі', ['Қаратөбе ауданы', 'Төлен ауылы'], './images/danger/2024/11.png'),
-                    s('Айнабұлақ негізгі орта мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2024/12.png'),
-                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы'], './images/danger/2024/13.png'),
-                    s('№27 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/14.png'),
-                    s('№43 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/15.png'),
-                    s('Дарынды балаларға арналған облыстық мамандандырылған №8 мектеп-лицейі', ['Орал қаласы'], './images/danger/2024/16.png')
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2024/1.webp'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2024/2.webp'),
+                    s('№1 жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Ақсай қаласы'], './images/danger/2024/3.webp'),
+                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачев ауылы'], './images/danger/2024/4.webp'),
+                    s('А. Оразбаева атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Жәнібек ауылы'], './images/danger/2024/5.webp'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2024/6.webp'),
+                    s('Ғ. Қараш атындағы негізгі орта мектебі', ['Жәнібек ауданы', 'Борсы ауылы'], './images/danger/2024/7.webp'),
+                    s('Қоныс негізгі орта мектебі', ['Қазталов ауданы', 'Қоныс ауылы'], './images/danger/2024/8.webp'),
+                    s('Сатыбалды негізгі орта мектебі', ['Қазталов ауданы', 'Сатыбалды ауылы'], './images/danger/2024/9.webp'),
+                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2024/10.webp'),
+                    s('Төлен негізгі орта мектебі', ['Қаратөбе ауданы', 'Төлен ауылы'], './images/danger/2024/11.webp'),
+                    s('Айнабұлақ негізгі орта мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2024/12.webp'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы'], './images/danger/2024/13.webp'),
+                    s('№27 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/14.webp'),
+                    s('№43 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/danger/2024/15.webp'),
+                    s('Дарынды балаларға арналған облыстық мамандандырылған №8 мектеп-лицейі', ['Орал қаласы'], './images/danger/2024/16.webp')
                 ],
                 2025: [
-                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2025/1.png'),
-                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2025/2.png'),
-                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачево ауылы'], './images/danger/2025/3.png'),
-                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2025/4.png'),
-                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2025/5.png'),
-                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2025/6.png'),
-                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2025/7.png'),
-                    s('Айнабұлақ негізгі жалпы білім беретін мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2025/8.png')
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2025/1.webp'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2025/2.webp'),
+                    s('Пугачев мектеп-бөбекжай-балабақша кешені', ['Бөрлі ауданы', 'Пугачево ауылы'], './images/danger/2025/3.webp'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2025/4.webp'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2025/5.webp'),
+                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2025/6.webp'),
+                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Сәуле ауылы'], './images/danger/2025/7.webp'),
+                    s('Айнабұлақ негізгі жалпы білім беретін мектебі', ['Тасқала ауданы', 'Айнабұлақ ауылы'], './images/danger/2025/8.webp')
                 ],
                 2026: [
-                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2026/1.png'),
-                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2026/2.png'),
-                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2026/3.png'),
-                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2026/4.png'),
-                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2026/5.png')
+                    s('Жаңажол жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Жаңажол ауылы'], './images/danger/2026/1.webp'),
+                    s('Кеңтүбек жалпы білім беретін мектебі', ['Бөрлі ауданы', 'Кеңтүбек ауылы'], './images/danger/2026/2.webp'),
+                    s('Тегісшіл негізгі орта мектебі', ['Жәнібек ауданы', 'Тегісшіл ауылы'], './images/danger/2026/3.webp'),
+                    s('Әбіш негізгі орта мектебі', ['Қазталов ауданы', 'Әбіш ауылы'], './images/danger/2026/4.webp'),
+                    s('Н. Дүйсенғалиев атындағы негізгі орта мектебі', ['Қазталов ауданы', 'Көмекші ауылы'], './images/danger/2026/5.webp')
                 ]
             };
 
@@ -1689,6 +1867,30 @@
             renderTable();
         })();
     </script>
+    <button type="button" class="to-top" id="toTop" aria-label="Жоғарыға">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script>
+        (function() {
+            var btn = document.getElementById('toTop');
+            if (!btn) return;
+            var toggle = function() {
+                btn.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > 400);
+            };
+            window.addEventListener('scroll', toggle, {
+                passive: true
+            });
+            btn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            toggle();
+        })();
+    </script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>

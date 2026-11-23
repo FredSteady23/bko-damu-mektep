@@ -14,8 +14,140 @@
     <link rel="stylesheet" href="/styles/schools.css">
     <link rel="stylesheet" href="/styles/year-block.css">
     <link rel="stylesheet" href="/styles/adaptive.css">
-    <link rel="shortcut icon" href="./images/icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./images/icon.webp" type="image/x-icon">
     <style>
+        .header {
+            background-color: rgba(6, 20, 58, .92);
+        }
+        /* ===== Мобильная адаптация ===== */
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        img,
+        svg {
+            max-width: 100%;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        @media (max-width: 900px) {
+            .footer__top {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+            .footer__nav {
+                flex-wrap: wrap;
+                gap: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                min-width: 0;
+            }
+            .logo__text {
+                font-size: 15px;
+                line-height: 1.2;
+            }
+            .logo__text small {
+                font-size: 11px;
+                display: block;
+            }
+            /* Выпадающее меню: место задаёт top, transform только для анимации */
+            .header__inner {
+                position: relative;
+            }
+            .header .nav {
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: rgba(6, 20, 58, .98) !important;
+                max-height: calc(100vh - var(--header-h));
+                overflow-y: auto;
+                transform: translateY(-16px) !important;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: transform .25s ease, opacity .25s ease, visibility .25s;
+            }
+            .header .nav.open {
+                transform: translateY(0) !important;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .header .nav a {
+                padding: 16px 20px;
+                font-size: 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+            }
+            /* Слайдер */
+            .hero {
+                height: auto;
+                min-height: 0;
+                aspect-ratio: 16 / 10;
+            }
+            .hero .slide,
+            .hero .slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                margin-top: 11px;
+            }
+            .arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+            .arrow--prev {
+                left: 8px;
+            }
+            .arrow--next {
+                right: 8px;
+            }
+            .dots {
+                bottom: 10px;
+            }
+            /* Подвал */
+            .footer__inner {
+                padding: 28px 16px;
+            }
+            .footer__top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .footer__nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .footer__bottom {
+                flex-direction: column;
+                gap: 6px;
+                text-align: left;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo__text {
+                font-size: 14px;
+            }
+            .hero {
+                aspect-ratio: 4 / 3;
+            }
+        }
         /* ===== Блок «карта + таблица» ===== */
         
         .overview__grid {
@@ -331,6 +463,60 @@
             .sm__side {
                 height: 520px;
             }
+            .overview__grid {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 15px;
+            }
+        }
+        /* ===== Кнопка «Жоғарыға» (слева внизу) ===== */
+        
+        .to-top {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 900;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 2px solid #ffe27a;
+            border-radius: 50%;
+            background: rgba(6, 20, 58, .92);
+            color: #ffe27a;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(6, 20, 58, .35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity .25s ease, transform .25s ease, visibility .25s, background .15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .to-top.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .to-top:hover {
+            background: #12358a;
+        }
+        
+        .to-top svg {
+            width: 22px;
+            height: 22px;
+        }
+        
+        @media (max-width: 768px) {
+            .to-top {
+                left: 12px;
+                bottom: 12px;
+                width: 44px;
+                height: 44px;
+            }
         }
     </style>
 </head>
@@ -353,8 +539,8 @@
             <nav class="nav" id="nav">
                 <a href="#">38 жаңа мектеп</a>
                 <a href="./emergency-schools.html">Апатты мектептер</a>
-                <a href="#shifts">Үш ауысымды</a>
-                <a href="#analysis">Талдау</a>
+                <a href="./shifts.html">Үш ауысымды</a>
+                <a href="./result.html">Талдау</a>
                 <!-- <a href="zko_map.html" class="btn-map">Карта</a> -->
             </nav>
 
@@ -381,7 +567,7 @@
                             2023 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/first.png" alt="первая картина">
+                            <img src="./images/cards/first.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2023">14</strong>
@@ -395,7 +581,7 @@
                             2024 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/third.png" alt="первая картина">
+                            <img src="./images/cards/third.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2024">8</strong>
@@ -409,7 +595,7 @@
                             2025 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/third.png" alt="первая картина">
+                            <img src="./images/cards/third.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2025">8</strong>
@@ -423,7 +609,7 @@
                             2026 жыл
                         </span>
                         <div class="ycard__photo">
-                            <img src="./images/cards/work.png" alt="первая картина">
+                            <img src="./images/cards/work.webp" alt="первая картина">
                         </div>
                         <div class="ycard__body">
                             <strong class="ycard__num" id="cnt2026">8</strong>
@@ -1404,25 +1590,15 @@
                 <nav class="footer__nav">
                     <a href="/">Басты бет</a>
                     <a href="./schools.html">Мектептер</a>
-                    <a href="/#emergency">Апатты мектептер</a>
-                    <a href="/#shifts">Үш ауысымды</a>
-                    <a href="/#analysis">Талдау</a>
-                    <!-- <a href="./zko_map.html">Карта</a> -->
+                    <a href="./emergency-schools.html">Апатты мектептер</a>
+                    <a href="./shifts.html">Үш ауысымды</a>
+                    <a href="./result.html">Талдау</a>
                 </nav>
-
-                <!-- Bilim -->
-                <div class="footer__external">
-                    <span>Ақпараттық ресурс</span>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                    Bilim <span>↗</span>
-                </a>
-                </div>
 
             </div>
 
             <div class="footer__bottom">
                 <p>© 2026 БҚО мектептері. Барлық құқықтар қорғалған.</p>
-                <p>Батыс Қазақстан облысы</p>
             </div>
 
         </div>
@@ -1443,50 +1619,50 @@
             // Каждый год — СВОЙ список школ. Картинки: images/schools/<год>/<номер>.png
             var YEARS = {
                 2023: [
-                    s('М. Өтемісов атындағы жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Атамекен ауылы'], './images/schools/2023/1.png'),
-                    s('Жайық негізгі орта мектебі', ['Ақжайық ауданы', 'Жайық ауылы'], './images/schools/2023/2.png'),
-                    s('Х. Халиуллин атындағы жалпы орта білім беретін мектебі', ['Жәнібек ауданы', 'Ақоба ауылы'], './images/schools/2023/3.png'),
-                    s('Пригород жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Садовый ауылы', 'Макаров ауылдық округі'], './images/schools/2023/4.png'),
-                    s('Жайық жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Жайық ауылы'], './images/schools/2023/5.png'),
-                    s('Өркен «мектеп-бөбекжай-балабақша» кешені', ['Бәйтерек ауданы', 'Өркен ауылы', 'Көшім ауылдық округі'], './images/schools/2023/6.png'),
-                    s('Жалын негізгі орта мектебі', ['Бәйтерек ауданы', 'Жалын ауылы'], './images/schools/2023/7.png'),
-                    s('Пойма жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Пойма ауылы'], './images/schools/2023/8.png'),
-                    s('Абай атындағы жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Абай ауылы'], './images/schools/2023/9.png'),
-                    s('Магистраль жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Магистральный ауылы'], './images/schools/2023/10.png'),
-                    s('Еңбек негізгі орта мектебі', ['Теректі ауданы', 'Үлкен Еңбек ауылы', 'Ақсоғым ауылдық округі'], './images/schools/2023/11.png'),
-                    s('А. Оразбаева атындағы жалпы орта білім беретін мектебі', ['Қазталов ауданы', 'Қазталов ауылы'], './images/schools/2023/12.png'),
-                    s('А. Хұсайынов атындағы мектеп', ['Қазталов ауданы', 'Жұлдыз ауылы', 'Қарасу ауылдық округі'], './images/schools/2023/13.png'),
-                    s('Шалғын негізгі орта мектебі', ['Қаратөбе ауданы', 'Шалғын ауылы'], './images/schools/2023/14.png')
+                    s('М. Өтемісов атындағы жалпы орта білім беретін мектебі', ['Ақжайық ауданы', 'Атамекен ауылы'], './images/schools/2023/1.webp'),
+                    s('Жайық негізгі орта мектебі', ['Ақжайық ауданы', 'Жайық ауылы'], './images/schools/2023/2.webp'),
+                    s('Х. Халиуллин атындағы жалпы орта білім беретін мектебі', ['Жәнібек ауданы', 'Ақоба ауылы'], './images/schools/2023/3.webp'),
+                    s('Пригород жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Садовый ауылы', 'Макаров ауылдық округі'], './images/schools/2023/4.webp'),
+                    s('Жайық жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Жайық ауылы'], './images/schools/2023/5.webp'),
+                    s('Өркен «мектеп-бөбекжай-балабақша» кешені', ['Бәйтерек ауданы', 'Өркен ауылы', 'Көшім ауылдық округі'], './images/schools/2023/6.webp'),
+                    s('Жалын негізгі орта мектебі', ['Бәйтерек ауданы', 'Жалын ауылы'], './images/schools/2023/7.webp'),
+                    s('Пойма жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Пойма ауылы'], './images/schools/2023/8.webp'),
+                    s('Абай атындағы жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Абай ауылы'], './images/schools/2023/9.webp'),
+                    s('Магистраль жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Магистральный ауылы'], './images/schools/2023/10.webp'),
+                    s('Еңбек негізгі орта мектебі', ['Теректі ауданы', 'Үлкен Еңбек ауылы', 'Ақсоғым ауылдық округі'], './images/schools/2023/11.webp'),
+                    s('А. Оразбаева атындағы жалпы орта білім беретін мектебі', ['Қазталов ауданы', 'Қазталов ауылы'], './images/schools/2023/12.webp'),
+                    s('А. Хұсайынов атындағы мектеп', ['Қазталов ауданы', 'Жұлдыз ауылы', 'Қарасу ауылдық округі'], './images/schools/2023/13.webp'),
+                    s('Шалғын негізгі орта мектебі', ['Қаратөбе ауданы', 'Шалғын ауылы'], './images/schools/2023/14.webp')
                 ],
                 2024: [
-                    s('Жарсуат жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Жарсуат ауылы'], './images/schools/2024/1.png'),
-                    s('М. Жүнісов атындағы орта мектеп', ['Қазталов ауданы', 'Саралжын ауылы'], './images/schools/2024/2.png'),
-                    s('Жарсуат жалпы орта білім беретін мектебі', ['Қаратөбе ауданы', 'Соналы ауылы'], './images/schools/2024/3.png'),
-                    s('Ханкөл жалпы орта білім беретін мектебі', ['Қаратөбе ауданы', 'Ханкөл ауылы'], './images/schools/2024/4.png'),
-                    s('№31 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/5.png'),
-                    s('№51 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/6.png'),
-                    s('№52 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/7.png'),
-                    s('Подстепный №2 жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Подстепный ауылы'], './images/schools/2024/8.png')
+                    s('Жарсуат жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Жарсуат ауылы'], './images/schools/2024/1.webp'),
+                    s('М. Жүнісов атындағы орта мектеп', ['Қазталов ауданы', 'Саралжын ауылы'], './images/schools/2024/2.webp'),
+                    s('Жарсуат жалпы орта білім беретін мектебі', ['Қаратөбе ауданы', 'Соналы ауылы'], './images/schools/2024/3.webp'),
+                    s('Ханкөл жалпы орта білім беретін мектебі', ['Қаратөбе ауданы', 'Ханкөл ауылы'], './images/schools/2024/4.webp'),
+                    s('№31 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/5.webp'),
+                    s('№51 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/6.webp'),
+                    s('№52 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2024/7.webp'),
+                    s('Подстепный №2 жалпы орта білім беретін мектебі', ['Теректі ауданы', 'Подстепный ауылы'], './images/schools/2024/8.webp')
                 ],
                 2025: [
-                    s('Қоныс ауылының жалпы орта білім беретін мектебі', ['Казталов ауданы', 'Қоныс ауылы'], './images/schools/2025/1.png'),
-                    s('№8 Дарынды балаларға арналған облыстық мамандандырылған мектеп-лицейі', ['Орал қаласы'], './images/schools/2025/2.png'),
-                    s('Қадір Мырза Әлі атындағы жалпы білім беретін қазақ мектебі', ['Бәйтерек ауданы', 'Трекино ауылы'], './images/schools/2025/3.png'),
-                    s('№1 жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Ақсай қаласы'], './images/schools/2025/4.png'),
-                    s('Пугачев мектеп-бөбекжай балабақша кешені', ['Бөрлі ауданы', 'Пугачев ауылы'], './images/schools/2025/5.png'),
-                    s('№9 жалпы орта білім беретін мектебі', ['Ақсай қаласы'], './images/schools/2025/6.png'),
-                    s('№53 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2025/7.png'),
-                    s('Достық жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Достық ауылы'], './images/schools/2025/8.png')
+                    s('Қоныс ауылының жалпы орта білім беретін мектебі', ['Казталов ауданы', 'Қоныс ауылы'], './images/schools/2025/1.webp'),
+                    s('№8 Дарынды балаларға арналған облыстық мамандандырылған мектеп-лицейі', ['Орал қаласы'], './images/schools/2025/2.webp'),
+                    s('Қадір Мырза Әлі атындағы жалпы білім беретін қазақ мектебі', ['Бәйтерек ауданы', 'Трекино ауылы'], './images/schools/2025/3.webp'),
+                    s('№1 жалпы орта білім беретін мектебі', ['Бөрлі ауданы', 'Ақсай қаласы'], './images/schools/2025/4.webp'),
+                    s('Пугачев мектеп-бөбекжай балабақша кешені', ['Бөрлі ауданы', 'Пугачев ауылы'], './images/schools/2025/5.webp'),
+                    s('№9 жалпы орта білім беретін мектебі', ['Ақсай қаласы'], './images/schools/2025/6.webp'),
+                    s('№53 жалпы орта білім беретін мектебі', ['Орал қаласы'], './images/schools/2025/7.webp'),
+                    s('Достық жалпы орта білім беретін мектебі', ['Бәйтерек ауданы', 'Достық ауылы'], './images/schools/2025/8.webp')
                 ],
                 2026: [
-                    s('А. Оразбаева атындағы негізгі орта білім беретін мектебі', ['Жәнібек ауданы', 'Жәнібек ауылы'], './images/schools/2026/1.png'),
-                    s('Ұзынкөл жалпы орта білім беретін мектебі', ['Жәнібек ауданы', 'Ұзынкөл ауылы'], './images/schools/2026/2.png'),
-                    s('Ұзынкөл ауылы Кеңсуат негізгі орта мектебі', ['Ақжайық ауданы', 'Есенсай ауылдық округі', 'Кеңсуат ауылы'], './images/schools/2026/3.png'),
-                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Саралжын ауылдық округі', 'Сәуле ауылы'], './images/schools/2026/4.png'),
-                    s('Озерный негізгі орта мектебі', ['Бәйтерек ауданы', 'Озерное ауылы'], './images/schools/2026/5.png'),
-                    s('Құспанкөл негізгі орта мектебі', ['Сырым ауданы', 'Шолақаңқаты ауылдық округі', 'Құспанкөл ауылы'], './images/schools/2026/6.png'),
-                    s('Айнабұлақ негізгі орта мектебі', ['Тасқала ауданы', 'Мерей ауылдық округі', 'Айнабұлақ ауылы'], './images/schools/2026/7.png'),
-                    s('Үштөбе негізгі орта мектебі', ['Ақжайық ауданы', 'Жамбыл ауылдық округі', 'Үштөбе ауылы'], './images/schools/2026/8.png')
+                    s('А. Оразбаева атындағы негізгі орта білім беретін мектебі', ['Жәнібек ауданы', 'Жәнібек ауылы'], './images/schools/2026/1.webp'),
+                    s('Ұзынкөл жалпы орта білім беретін мектебі', ['Жәнібек ауданы', 'Ұзынкөл ауылы'], './images/schools/2026/2.webp'),
+                    s('Ұзынкөл ауылы Кеңсуат негізгі орта мектебі', ['Ақжайық ауданы', 'Есенсай ауылдық округі', 'Кеңсуат ауылы'], './images/schools/2026/3.webp'),
+                    s('Жақсыбай негізгі орта мектебі', ['Қаратөбе ауданы', 'Саралжын ауылдық округі', 'Сәуле ауылы'], './images/schools/2026/4.webp'),
+                    s('Озерный негізгі орта мектебі', ['Бәйтерек ауданы', 'Озерное ауылы'], './images/schools/2026/5.webp'),
+                    s('Құспанкөл негізгі орта мектебі', ['Сырым ауданы', 'Шолақаңқаты ауылдық округі', 'Құспанкөл ауылы'], './images/schools/2026/.webp'),
+                    s('Айнабұлақ негізгі орта мектебі', ['Тасқала ауданы', 'Мерей ауылдық округі', 'Айнабұлақ ауылы'], './images/schools/2026/7.webp'),
+                    s('Үштөбе негізгі орта мектебі', ['Ақжайық ауданы', 'Жамбыл ауылдық округі', 'Үштөбе ауылы'], './images/schools/2026/8.webp')
                 ]
             };
 
@@ -1712,6 +1888,30 @@
             renderTable();
         })();
     </script>
+    <button type="button" class="to-top" id="toTop" aria-label="Жоғарыға">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script>
+        (function() {
+            var btn = document.getElementById('toTop');
+            if (!btn) return;
+            var toggle = function() {
+                btn.classList.toggle('is-visible', (window.pageYOffset || document.documentElement.scrollTop) > 400);
+            };
+            window.addEventListener('scroll', toggle, {
+                passive: true
+            });
+            btn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            toggle();
+        })();
+    </script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
