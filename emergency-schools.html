@@ -149,9 +149,11 @@
             }
         }
         
-        .overview__grid {
+        .overview .overview__grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            /* карточки такого же размера, как на странице schools (там 4 в ряд) */
+            grid-template-columns: repeat(3, calc((100% - 3 * 28px) / 4));
+            justify-content: center;
             gap: 28px;
         }
         
@@ -462,9 +464,10 @@
             .sm__side {
                 height: 520px;
             }
-            .overview__grid {
+            .overview .overview__grid {
                 display: grid;
-                grid-template-columns: repeat(1, 1fr);
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                justify-content: stretch;
                 gap: 15px;
             }
         }
@@ -516,6 +519,231 @@
                 width: 44px;
                 height: 44px;
             }
+        }
+        /* ===== Помощник (чат с готовыми ответами) ===== */
+        
+        .bot-fab {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 950;
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 2px solid #ffe27a;
+            border-radius: 50%;
+            background: #12358a;
+            color: #ffe27a;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(6, 20, 58, .4);
+            transition: transform .15s, background .15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .bot-fab:hover {
+            transform: scale(1.06);
+            background: #1c4fb5;
+        }
+        
+        .bot-fab svg {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .bot-win {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            z-index: 950;
+            width: 360px;
+            max-width: calc(100vw - 24px);
+            height: 500px;
+            max-height: calc(100vh - 110px);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid #dbe3f3;
+            box-shadow: 0 16px 40px rgba(6, 20, 58, .35);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(14px);
+            transition: opacity .2s, transform .2s, visibility .2s;
+        }
+        
+        .bot-win.is-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .bot-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #12358a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        .bot-head small {
+            display: block;
+            font-weight: 500;
+            font-size: 12px;
+            color: #ffe27a;
+        }
+        
+        .bot-close {
+            background: none;
+            border: 0;
+            color: #fff;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        
+        .bot-msgs {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f4f7fd;
+        }
+        
+        .bot-m {
+            max-width: 86%;
+            padding: 10px 13px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.45;
+            word-wrap: break-word;
+        }
+        
+        .bot-m--bot {
+            align-self: flex-start;
+            background: #fff;
+            color: #1d2b44;
+            border: 1px solid #dbe3f3;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .bot-m--me {
+            align-self: flex-end;
+            background: #12358a;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .bot-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 12px;
+            border-top: 1px solid #e6ecf7;
+            background: #fff;
+            max-height: 96px;
+            overflow-y: auto;
+        }
+        
+        .bot-chip {
+            font: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid #c9d3e0;
+            background: #fff;
+            color: #12358a;
+        }
+        
+        .bot-chip:hover {
+            background: #eef3ff;
+            border-color: #12358a;
+        }
+        
+        .bot-form {
+            display: flex;
+            gap: 8px;
+            padding: 10px 12px;
+            border-top: 1px solid #e6ecf7;
+            background: #fff;
+        }
+        
+        .bot-form input {
+            flex: 1;
+            min-width: 0;
+            font: inherit;
+            font-size: 14px;
+            padding: 10px 12px;
+            border: 1px solid #c9d3e0;
+            border-radius: 12px;
+            outline: none;
+        }
+        
+        .bot-form input:focus {
+            border-color: #12358a;
+        }
+        
+        .bot-form button {
+            font: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0 16px;
+            border: 0;
+            border-radius: 12px;
+            background: #ef8a2b;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .bot-fab {
+                right: 12px;
+                bottom: 12px;
+                width: 52px;
+                height: 52px;
+            }
+            .bot-win {
+                right: 12px;
+                bottom: 76px;
+                height: 70vh;
+            }
+        }
+        
+        .bot-m {
+            white-space: pre-wrap;
+        }
+        
+        .bot-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .bot-lang {
+            font: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid #ffe27a;
+            background: transparent;
+            color: #ffe27a;
+        }
+        
+        .bot-lang:hover {
+            background: rgba(255, 226, 122, .15);
         }
     </style>
 </head>
@@ -602,13 +830,13 @@
                     </a>
 
                 </div>
-
+                <!-- 
                 <div class="overview__total">
                     <svg class="overview__total-icon" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M12 5V2l3 1.5L12 5"/>
                     </svg>
                     <span class="overview__total-text">Барлығы – <b>29</b> мектеп</span>
-                </div>
+                </div> -->
 
             </div>
         </section>
@@ -1646,6 +1874,9 @@
                 2026: 5
             };
 
+            window.SCHOOLS_DATA = YEARS; // для помощника
+            window.SCHOOLS_COUNTS = COUNTS;
+
             [2024, 2025, 2026].forEach(function(y) {
                 var el = document.getElementById('cnt' + y);
                 if (el) el.textContent = COUNTS[y];
@@ -1888,6 +2119,407 @@
                 });
             });
             toggle();
+        })();
+    </script>
+    <!-- ===== Помощник ===== -->
+    <button type="button" class="bot-fab" id="botFab" aria-label="Көмекші" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/><circle cx="8.5" cy="12" r=".6" fill="currentColor"/><circle cx="12" cy="12" r=".6" fill="currentColor"/><circle cx="15.5" cy="12" r=".6" fill="currentColor"/></svg>
+    </button>
+    <div class="bot-win" id="botWin" role="dialog" aria-label="Көмекші">
+        <div class="bot-head">
+            <span>Көмекші<small id="botSub">Сайт бойынша көмекші</small></span>
+            <span class="bot-tools">
+                <button type="button" class="bot-lang" id="botLang" aria-label="Тіл / Язык">ҚАЗ</button>
+                <button type="button" class="bot-close" id="botClose" aria-label="Жабу">&times;</button>
+            </span>
+        </div>
+        <div class="bot-msgs" id="botMsgs"></div>
+        <div class="bot-chips" id="botChips"></div>
+        <form class="bot-form" id="botForm" autocomplete="off">
+            <input type="text" id="botInput" placeholder="Сұрағыңызды жазыңыз…" maxlength="200">
+            <button type="submit" aria-label="Жіберу">&#10148;</button>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            var fab = document.getElementById('botFab'),
+                win = document.getElementById('botWin'),
+                msgs = document.getElementById('botMsgs'),
+                chips = document.getElementById('botChips'),
+                form = document.getElementById('botForm'),
+                input = document.getElementById('botInput'),
+                langBtn = document.getElementById('botLang'),
+                sub = document.getElementById('botSub');
+            if (!fab) return;
+
+            var lang = 'kk';
+            var T = function(l, kk, ru) {
+                return l === 'ru' ? ru : kk;
+            };
+            var DATA = function() {
+                return window.SCHOOLS_DATA || {};
+            };
+            var COUNTS = function() {
+                return window.SCHOOLS_COUNTS || {};
+            };
+            var cnt = function(y) {
+                return COUNTS()[y] != null ? COUNTS()[y] : (DATA()[y] || []).length;
+            };
+            var YEARS_LIST = function() {
+                return Object.keys(DATA()).map(Number).sort();
+            };
+
+            // свёртка казахских букв, чтобы «Қазталов» и «Казталов» совпадали
+            var fold = function(t) {
+                return String(t || '').toLowerCase().replace(/ё/g, 'е').replace(/ә/g, 'а').replace(/ғ/g, 'г')
+                    .replace(/қ/g, 'к').replace(/ң/g, 'н').replace(/ө/g, 'о').replace(/[ұү]/g, 'у')
+                    .replace(/һ/g, 'х').replace(/[іы]/g, 'и');
+            };
+
+            // районы: c — как в данных, q — как могут написать (kk / ru)
+            var REGIONS = [{
+                c: 'Ақжайық',
+                q: ['Ақжайық', 'Акжаик']
+            }, {
+                c: 'Жәнібек',
+                q: ['Жәнібек', 'Жанибек']
+            }, {
+                c: 'Бәйтерек',
+                q: ['Бәйтерек', 'Байтерек', 'Зеленов']
+            }, {
+                c: 'Теректі',
+                q: ['Теректі', 'Терект']
+            }, {
+                c: 'Қазталов',
+                q: ['Қазталов', 'Казтал']
+            }, {
+                c: 'Қаратөбе',
+                q: ['Қаратөбе', 'Каратоб']
+            }, {
+                c: 'Бөрлі',
+                q: ['Бөрлі', 'Бурлин']
+            }, {
+                c: 'Сырым',
+                q: ['Сырым']
+            }, {
+                c: 'Тасқала',
+                q: ['Тасқала', 'Таскал']
+            }, {
+                c: 'Орал',
+                q: ['Орал', 'Уральск']
+            }, {
+                c: 'Ақсай',
+                q: ['Ақсай', 'Аксай']
+            }];
+
+            var textOf = function(sc) {
+                return fold(sc.name + ' ' + sc.lines.join(' '));
+            };
+            var where = function(sc) {
+                return sc.lines.join(', ');
+            };
+            var all = function() {
+                var out = [];
+                YEARS_LIST().forEach(function(y) {
+                    DATA()[y].forEach(function(sc) {
+                        out.push({
+                            y: y,
+                            sc: sc
+                        });
+                    });
+                });
+                return out;
+            };
+            var fmt = function(arr, withYear) {
+                return arr.map(function(o) {
+                    return '• ' + (withYear ? o.y + ': ' : '') + o.sc.name + ' — ' + where(o.sc);
+                }).join('\n');
+            };
+
+            // одна и та же школа может стоять в списках разных лет — объединяем
+            var keyOf = function(sc) {
+                return fold(sc.name.split(/\s+/).slice(0, 2).join(' '));
+            };
+
+            function group(arr) {
+                var m = {},
+                    out = [];
+                arr.forEach(function(o) {
+                    var k = keyOf(o.sc);
+                    if (!m[k]) {
+                        m[k] = {
+                            sc: o.sc,
+                            ys: []
+                        };
+                        out.push(m[k]);
+                    }
+                    if (o.sc.lines.length > m[k].sc.lines.length) m[k].sc = o.sc;
+                    if (m[k].ys.indexOf(o.y) === -1) m[k].ys.push(o.y);
+                });
+                return out;
+            }
+            var fmtG = function(g) {
+                return g.map(function(x) {
+                    return '• ' + x.sc.name + ' — ' + where(x.sc) + ' (' + x.ys.join(', ') + ')';
+                }).join('\n');
+            };
+
+            function byYear(y, region, l) {
+                var arr = (DATA()[y] || []).map(function(sc) {
+                    return {
+                        y: y,
+                        sc: sc
+                    };
+                });
+                if (region) arr = arr.filter(function(o) {
+                    return textOf(o.sc).indexOf(fold(region.c)) !== -1;
+                });
+                if (!arr.length) return T(l, 'Бұл сұраныс бойынша мектеп табылмады.', 'По этому запросу школ не найдено.');
+                var n = region ? arr.length : cnt(y),
+                    place = region ? region.c + ', ' : '',
+                    head;
+                if (y === 2026) head = T(l, y + ' жылы ' + place + n + ' мектептің жөңдеуі басталды:', 'В ' + y + ' году ' + place + 'начат ремонт ' + n + ' школ:');
+                else head = T(l, y + ' жылы ' + place + n + ' мектеп жөңделді:', 'В ' + y + ' году ' + place + 'отремонтировано школ: ' + n + ':');
+                return head + '\n' + fmt(arr, false) + '\n\n' + T(l, 'Фото мен картаны төмендегі кестеден қараңыз.', 'Фото и карту смотрите ниже в таблице.');
+            }
+
+            function byRegion(region, l) {
+                var g = group(all().filter(function(o) {
+                    return textOf(o.sc).indexOf(fold(region.c)) !== -1;
+                }));
+                if (!g.length) return T(l, region.c + ' бойынша бұл беттегі тізімде мектеп жоқ.', 'В списках этой страницы школ по «' + region.c + '» нет.');
+                return T(l, region.c + ' бойынша ' + g.length + ' мектеп (жылдары жақшада):', region.c + ' — школ: ' + g.length + ' (годы в скобках):') + '\n' + fmtG(g);
+            }
+
+            var STOP_EXACT = ['жана', 'новые', 'новый', 'новых', 'бар', 'где', 'что', 'это', 'как', 'есть', 'про', 'для', 'или', 'и', 'не', 'на', 'в', 'с'];
+            var STOP_PREFIX = ['мектеп', 'школ', 'ауил', 'село', 'район', 'аудан', 'жил', 'год', 'канда', 'каки', 'списо', 'тизим', 'покаж', 'корсет', 'расскаж', 'скаж', 'айт', 'номер', 'сколь', 'канша', 'барли', 'всего', 'апат', 'аварий', 'жонде', 'ремонт', 'капитал'];
+
+            function search(q, l) {
+                var tokens = fold(q).replace(/№/g, ' ').replace(/[^a-zа-я0-9\s]/g, ' ').split(/\s+/).filter(function(w) {
+                    if (/^\d+$/.test(w)) return true;
+                    if (w.length < 4 || STOP_EXACT.indexOf(w) !== -1) return false;
+                    return !STOP_PREFIX.some(function(p) {
+                        return w.indexOf(p) === 0;
+                    });
+                });
+                if (!tokens.length) return null;
+                var scored = all().map(function(o) {
+                    var tx = textOf(o.sc),
+                        s = 0;
+                    tokens.forEach(function(w) {
+                        if (/^\d+$/.test(w)) {
+                            if (new RegExp('№' + w + '(?!\\d)').test(tx)) s += 2;
+                        } else if (tx.indexOf(w.slice(0, Math.max(4, w.length - 2))) !== -1) s += 1;
+                    });
+                    return {
+                        o: o,
+                        s: s
+                    };
+                }).filter(function(x) {
+                    return x.s > 0;
+                });
+                if (!scored.length) return null;
+                var max = Math.max.apply(null, scored.map(function(x) {
+                    return x.s;
+                }));
+                var g = group(scored.filter(function(x) {
+                    return x.s === max;
+                }).map(function(x) {
+                    return x.o;
+                })).slice(0, 8);
+                return T(l, 'Табылғаны (' + g.length + '):', 'Найдено (' + g.length + '):') + '\n' + fmtG(g);
+            }
+
+            // готовые ответы. k — ключевые слова; run(l) — ответ на языке l
+            var ITEMS = [{
+                kk: 'Апатты мектеп деген не?',
+                ru: 'Что такое аварийные школы?',
+                k: ['апатти', 'апат', 'аварии', 'что такое', 'деген не', 'не туралы', 'о чем', 'что это', 'проект', 'жондеу', 'ремонт'],
+                run: function(l) {
+                    return T(l, 'Апатты мектептер — ғимараты қауіпті жағдайда болғандықтан күрделі жөндеуден өткен немесе өтіп жатқан мектептер. Бұл бетте Батыс Қазақстан облысы бойынша 2024–2026 жылдардағы тізім, карта және суреттер бар.',
+                        'Аварийные школы — это школы, здания которых были в неудовлетворительном состоянии и проходят капитальный ремонт. На странице — список, карта и фото по Западно-Казахстанской области за 2024–2026 годы.');
+                }
+            }, {
+                kk: 'Барлығы қанша мектеп?',
+                ru: 'Сколько всего школ?',
+                k: ['барлыгы', 'барлиги', 'канша', 'сколько', 'всего', 'итого', 'жалпы'],
+                run: function(l) {
+                    var total = 0,
+                        parts = [];
+                    YEARS_LIST().forEach(function(y) {
+                        total += cnt(y);
+                        parts.push(y + ' — ' + cnt(y));
+                    });
+                    return T(l, 'Барлығы ' + total + ' мектеп: ', 'Всего ' + total + ' школ: ') + parts.join(', ') + '.';
+                }
+            }, {
+                kk: 'Бірнеше жыл тізімінде тұрған мектептер',
+                ru: 'Школы в списках нескольких лет',
+                k: ['катар', 'бирнеше', 'несколько лет', 'повтор', 'нескольких', 'каждый год', 'каждом'],
+                run: function(l) {
+                    var g = group(all()).filter(function(x) {
+                        return x.ys.length > 1;
+                    });
+                    if (!g.length) return T(l, 'Қайталанатын мектеп жоқ.', 'Повторяющихся школ нет.');
+                    return T(l, 'Бірнеше жылдың тізімінде кездесетін мектептер (' + g.length + '):', 'Школы, которые встречаются в списках нескольких лет (' + g.length + '):') + '\n' + fmtG(g);
+                }
+            }, {
+                kk: 'Картаны қалай қолданамын?',
+                ru: 'Как пользоваться картой?',
+                k: ['карта', 'карт', 'кандаи', 'как пользов', 'нажать', 'басу'],
+                run: function(l) {
+                    return T(l, 'Картадағы ауданды басыңыз — кесте мен суреттер сол ауданның мектептерін көрсетеді. Қайта басқанда сүзгі өшеді. Жоғарыдағы жыл батырмалары басқа жылға ауыстырады.',
+                        'Нажмите на район на карте — таблица и фото покажут школы этого района. Повторный клик сбрасывает фильтр. Кнопки годов сверху переключают год.');
+                }
+            }, {
+                kk: 'Суреттер қайда?',
+                ru: 'Где фото школ?',
+                k: ['сурет', 'фото', 'картинк', 'изображ', 'галере'],
+                run: function(l) {
+                    return T(l, 'Суреттер беттің төменгі жағында, «Мектептердің суреттері» бөлімінде. Кестедегі жолды басса, сол мектептің суреті таңдалады.',
+                        'Фото — внизу страницы, в разделе «Мектептердің суреттері». Клик по строке таблицы выделяет нужную школу.');
+                }
+            }, {
+                kk: 'Басқа беттер',
+                ru: 'Другие страницы',
+                k: ['баска', 'бет', 'страниц', 'меню', 'жани мектеп', 'жана мектеп', '38', 'смен', 'аусим', 'талдау', 'анализ'],
+                run: function(l) {
+                    return T(l, 'Мәзірде: «38 жаңа мектеп», «Үш ауысымды» және «Талдау» беттері бар.',
+                        'В меню есть страницы: «38 жаңа мектеп» (новые школы), «Үш ауысымды» (трёхсменные школы) и «Талдау» (анализ).');
+                }
+            }, {
+                kk: 'Байланыс',
+                ru: 'Контакты',
+                k: ['байланис', 'контакт', 'телефон', 'почта', 'связ', 'адрес'],
+                run: function(l) {
+                    return T(l, 'Байланыс деректері бұл бетте көрсетілмеген. Облыстық білім басқармасына хабарласыңыз.',
+                        'Контакты на странице не указаны — уточните в управлении образования области.');
+                }
+            }];
+
+            function answer(q, forced) {
+                var l = /[әғқңөұүһі]/i.test(q) ? 'kk' : (/[эщъёьюя]|школ|сколько|где\b|как\b|что\b|год|район|покаж|списо|есть|какие|нескольк/i.test(q) ? 'ru' : (forced || lang));
+                var f = fold(q);
+                // 1) вопросы про общее («сколько всего школ») — если нет года и района
+                var ym = /(20[2-3]\d)/.exec(q),
+                    year = ym && DATA()[+ym[1]] ? +ym[1] : null;
+                var region = null;
+                REGIONS.forEach(function(r) {
+                    if (!region && r.q.some(function(w) {
+                            return f.indexOf(fold(w)) !== -1;
+                        })) region = r;
+                });
+                if (year && region) return byYear(year, region, l);
+                if (year) return byYear(year, null, l);
+                if (region) return byRegion(region, l);
+                // 2) готовые ответы
+                var best = null,
+                    bs = 0;
+                ITEMS.forEach(function(it) {
+                    var s = 0;
+                    it.k.forEach(function(w) {
+                        if (f.indexOf(fold(w)) !== -1) s += w.length;
+                    });
+                    if (s > bs) {
+                        bs = s;
+                        best = it;
+                    }
+                });
+                if (best) return best.run(l);
+                // 3) поиск по названиям школ и сёл
+                var found = search(q, l);
+                if (found) return found;
+                return T(l, 'Кешіріңіз, жауап таппадым. Мектеп, ауыл, аудан немесе жыл атауын жазып көріңіз (мысалы: «Қазталов», «2025», «Жаңажол»).',
+                    'Не нашёл ответ. Попробуйте написать название школы, села, района или год (например: «Қазталов», «2025», «Жаңажол»).');
+            }
+
+            function add(text, me) {
+                var d = document.createElement('div');
+                d.className = 'bot-m ' + (me ? 'bot-m--me' : 'bot-m--bot');
+                d.textContent = text;
+                msgs.appendChild(d);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function reply(text) {
+                setTimeout(function() {
+                    add(text, false);
+                }, 300);
+            }
+
+            function renderChips() {
+                chips.innerHTML = '';
+                var list = ITEMS.map(function(it) {
+                    return {
+                        label: T(lang, it.kk, it.ru),
+                        run: function() {
+                            return it.run(lang);
+                        }
+                    };
+                });
+                YEARS_LIST().forEach(function(y) {
+                    list.push({
+                        label: T(lang, y + ' жыл', y + ' год'),
+                        run: function() {
+                            return byYear(y, null, lang);
+                        }
+                    });
+                });
+                list.forEach(function(c) {
+                    var b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'bot-chip';
+                    b.textContent = c.label;
+                    b.addEventListener('click', function() {
+                        add(c.label, true);
+                        reply(c.run());
+                    });
+                    chips.appendChild(b);
+                });
+            }
+
+            function applyLang() {
+                langBtn.textContent = lang === 'kk' ? 'ҚАЗ' : 'РУС';
+                sub.textContent = T(lang, 'Сайт бойынша көмекші', 'Помощник по сайту');
+                input.placeholder = T(lang, 'Сұрағыңызды жазыңыз…', 'Напишите вопрос…');
+                renderChips();
+            }
+            langBtn.addEventListener('click', function() {
+                lang = lang === 'kk' ? 'ru' : 'kk';
+                applyLang();
+            });
+
+            var greeted = false;
+
+            function toggle(open) {
+                var on = open != null ? open : !win.classList.contains('is-open');
+                win.classList.toggle('is-open', on);
+                fab.setAttribute('aria-expanded', on);
+                if (on && !greeted) {
+                    greeted = true;
+                    add(T(lang, 'Сәлеметсіз бе! Мен апатты мектептер беті бойынша көмекшімін. Сұрақты таңдаңыз немесе мектеп, ауыл, аудан, жыл атауын жазыңыз. Орысша да жаза аласыз (ҚАЗ/РУС батырмасы).',
+                        'Здравствуйте! Я помощник по странице аварийных школ. Выберите вопрос или напишите название школы, села, района или год. Можно писать и по-казахски (кнопка ҚАЗ/РУС).'), false);
+                }
+                if (on) setTimeout(function() {
+                    input.focus();
+                }, 250);
+            }
+            fab.addEventListener('click', function() {
+                toggle();
+            });
+            document.getElementById('botClose').addEventListener('click', function() {
+                toggle(false);
+            });
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var q = input.value.trim();
+                if (!q) return;
+                input.value = '';
+                add(q, true);
+                reply(answer(q));
+            });
+            applyLang();
         })();
     </script>
     <script src="./js/app.js"></script>

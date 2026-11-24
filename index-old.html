@@ -17,6 +17,27 @@
         .header {
             background-color: rgba(6, 20, 58, .92);
         }
+        /* ===== Баннер на всю ширину, кликабельные слайды ===== */
+        
+        .hero {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background: #06143a;
+        }
+        
+        .hero .slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+        
+        .hero a.slide {
+            cursor: pointer;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
         /* ===== Мобильная адаптация ===== */
         
         html {
@@ -100,8 +121,9 @@
             .hero .slide img {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
-                margin-top: 11px;
+                object-fit: cover;
+                object-position: center;
+                margin: 0;
             }
             .arrow {
                 width: 36px;
@@ -180,9 +202,9 @@
     </header>
 
     <section class="hero" id="hero">
-        <div class="slide active"><img src="/images/slide1.webp" alt="Слайд 1"></div>
-        <div class="slide"><img src="/images/slide2.webp" alt="Слайд 2"></div>
-        <div class="slide"><img src="/images/slide3.webp" alt="Слайд 3"></div>
+        <a class="slide active" href="./schools.html"><img src="/images/slide1.webp" alt="38 жаңа мектеп"></a>
+        <a class="slide" href="./emergency-schools.html"><img src="/images/slide2.webp" alt="Апатты мектептер"></a>
+        <a class="slide" href="./shifts.html"><img src="/images/slide3.webp" alt="Үш ауысымды мектептер"></a>
 
         <button class="arrow arrow--prev" aria-label="Алдыңғы">&#10094;</button>
         <button class="arrow arrow--next" aria-label="Келесі">&#10095;</button>
@@ -220,19 +242,10 @@
                     <a href="./result.html">Талдау</a>
                 </nav>
 
-                <!-- Bilim -->
-                <div class="footer__external">
-                    <span>Ақпараттық ресурс</span>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                    Bilim <span>↗</span>
-                </a>
-                </div>
-
             </div>
 
             <div class="footer__bottom">
                 <p>© 2026 БҚО мектептері. Барлық құқықтар қорғалған.</p>
-                <p>Батыс Қазақстан облысы</p>
             </div>
 
         </div>

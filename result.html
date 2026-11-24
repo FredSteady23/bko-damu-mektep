@@ -463,6 +463,231 @@
             flex-shrink: 0;
             margin-top: auto;
         }
+        /* ===== Помощник (чат с готовыми ответами) ===== */
+
+        .bot-fab {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 950;
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 2px solid #ffe27a;
+            border-radius: 50%;
+            background: #12358a;
+            color: #ffe27a;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(6, 20, 58, .4);
+            transition: transform .15s, background .15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bot-fab:hover {
+            transform: scale(1.06);
+            background: #1c4fb5;
+        }
+
+        .bot-fab svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .bot-win {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            z-index: 950;
+            width: 360px;
+            max-width: calc(100vw - 24px);
+            height: 500px;
+            max-height: calc(100vh - 110px);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid #dbe3f3;
+            box-shadow: 0 16px 40px rgba(6, 20, 58, .35);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(14px);
+            transition: opacity .2s, transform .2s, visibility .2s;
+        }
+
+        .bot-win.is-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .bot-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #12358a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .bot-head small {
+            display: block;
+            font-weight: 500;
+            font-size: 12px;
+            color: #ffe27a;
+        }
+
+        .bot-close {
+            background: none;
+            border: 0;
+            color: #fff;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .bot-msgs {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f4f7fd;
+        }
+
+        .bot-m {
+            max-width: 86%;
+            padding: 10px 13px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.45;
+            word-wrap: break-word;
+        }
+
+        .bot-m--bot {
+            align-self: flex-start;
+            background: #fff;
+            color: #1d2b44;
+            border: 1px solid #dbe3f3;
+            border-bottom-left-radius: 4px;
+        }
+
+        .bot-m--me {
+            align-self: flex-end;
+            background: #12358a;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 12px;
+            border-top: 1px solid #e6ecf7;
+            background: #fff;
+            max-height: 96px;
+            overflow-y: auto;
+        }
+
+        .bot-chip {
+            font: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid #c9d3e0;
+            background: #fff;
+            color: #12358a;
+        }
+
+        .bot-chip:hover {
+            background: #eef3ff;
+            border-color: #12358a;
+        }
+
+        .bot-form {
+            display: flex;
+            gap: 8px;
+            padding: 10px 12px;
+            border-top: 1px solid #e6ecf7;
+            background: #fff;
+        }
+
+        .bot-form input {
+            flex: 1;
+            min-width: 0;
+            font: inherit;
+            font-size: 14px;
+            padding: 10px 12px;
+            border: 1px solid #c9d3e0;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        .bot-form input:focus {
+            border-color: #12358a;
+        }
+
+        .bot-form button {
+            font: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0 16px;
+            border: 0;
+            border-radius: 12px;
+            background: #ef8a2b;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .bot-fab {
+                right: 12px;
+                bottom: 12px;
+                width: 52px;
+                height: 52px;
+            }
+            .bot-win {
+                right: 12px;
+                bottom: 76px;
+                height: 70vh;
+            }
+        }
+        
+        .bot-m {
+            white-space: pre-wrap;
+        }
+        
+        .bot-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .bot-lang {
+            font: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid #ffe27a;
+            background: transparent;
+            color: #ffe27a;
+        }
+        
+        .bot-lang:hover {
+            background: rgba(255, 226, 122, .15);
+        }
     </style>
 
 </head>
@@ -703,6 +928,340 @@
             window.addEventListener('resize', function() {
                 charts.forEach(drawTrend);
             });
+        })();
+    </script>
+    <!-- ===== Помощник ===== -->
+    <button type="button" class="bot-fab" id="botFab" aria-label="Көмекші" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/><circle cx="8.5" cy="12" r=".6" fill="currentColor"/><circle cx="12" cy="12" r=".6" fill="currentColor"/><circle cx="15.5" cy="12" r=".6" fill="currentColor"/></svg>
+    </button>
+    <div class="bot-win" id="botWin" role="dialog" aria-label="Көмекші">
+        <div class="bot-head">
+            <span>Көмекші<small id="botSub">Сайт бойынша көмекші</small></span>
+            <span class="bot-tools">
+                <button type="button" class="bot-lang" id="botLang" aria-label="Тіл / Язык">ҚАЗ</button>
+                <button type="button" class="bot-close" id="botClose" aria-label="Жабу">&times;</button>
+            </span>
+        </div>
+        <div class="bot-msgs" id="botMsgs"></div>
+        <div class="bot-chips" id="botChips"></div>
+        <form class="bot-form" id="botForm" autocomplete="off">
+            <input type="text" id="botInput" placeholder="Сұрағыңызды жазыңыз…" maxlength="200">
+            <button type="submit" aria-label="Жіберу">&#10148;</button>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            var fab = document.getElementById('botFab'),
+                win = document.getElementById('botWin'),
+                msgs = document.getElementById('botMsgs'),
+                chips = document.getElementById('botChips'),
+                form = document.getElementById('botForm'),
+                input = document.getElementById('botInput'),
+                langBtn = document.getElementById('botLang'),
+                sub = document.getElementById('botSub');
+            if (!fab) return;
+
+            var lang = 'kk';
+            var T = function(l, kk, ru) {
+                return l === 'ru' ? ru : kk;
+            };
+            // данные графиков берутся из KPI_DATA в начале страницы
+            var D = function() {
+                return window.KPI_DATA || (typeof KPI_DATA !== 'undefined' ? KPI_DATA : []);
+            };
+            var fold = function(t) {
+                return String(t || '').toLowerCase().replace(/ё/g, 'е').replace(/ә/g, 'а').replace(/ғ/g, 'г')
+                    .replace(/қ/g, 'к').replace(/ң/g, 'н').replace(/ө/g, 'о').replace(/[ұү]/g, 'у')
+                    .replace(/һ/g, 'х').replace(/[іы]/g, 'и');
+            };
+
+            var NAMES = {
+                'new': ['жаңа салынған мектептер', 'новые школы'],
+                'apatty': ['апатты мектептер', 'аварийные школы'],
+                'shifts': ['3 ауысымды мектептер', 'трёхсменные школы']
+            };
+            var KEYS = {
+                'new': ['жаңа', 'новы', 'салын', 'построен', 'строител', 'строен'],
+                'apatty': ['апат', 'аварий'],
+                'shifts': ['ауысым', 'смен', '3 ау']
+            };
+            var nm = function(d, l) {
+                var n = NAMES[d.key];
+                return n ? T(l, n[0], n[1]) : d.label;
+            };
+            var val = function(d, y) {
+                var r = d.years.filter(function(a) {
+                    return a[0] === y;
+                })[0];
+                return r ? r[1] : null;
+            };
+            var sum = function(d) {
+                return d.years.reduce(function(s, a) {
+                    return s + a[1];
+                }, 0);
+            };
+            var allYears = function() {
+                var m = {};
+                D().forEach(function(d) {
+                    d.years.forEach(function(a) {
+                        m[a[0]] = 1;
+                    });
+                });
+                return Object.keys(m).map(Number).sort();
+            };
+            var line = function(d) {
+                return d.years.map(function(a) {
+                    return a[0] + ' — ' + a[1];
+                }).join(', ');
+            };
+            var range = function(d) {
+                return d.years[0][0] + '–' + d.years[d.years.length - 1][0];
+            };
+
+            function catAnswer(d, y, l) {
+                if (y) {
+                    var v = val(d, y);
+                    if (v == null) return T(l, y + ' жылы «' + nm(d, l) + '» бойынша деректер жоқ (деректер ' + range(d) + ' жылдарға берілген).',
+                        'За ' + y + ' год данных по «' + nm(d, l) + '» нет (данные за ' + range(d) + ').');
+                    return T(l, y + ' жылы — ' + v + ' (' + nm(d, l) + ').', 'В ' + y + ' году — ' + v + ' (' + nm(d, l) + ').');
+                }
+                return nm(d, l).charAt(0).toUpperCase() + nm(d, l).slice(1) + ':\n' + line(d) + '\n' + T(l, 'Барлығы — ' + sum(d) + '.', 'Всего — ' + sum(d) + '.');
+            }
+
+            function yearAnswer(y, l) {
+                var parts = [];
+                D().forEach(function(d) {
+                    var v = val(d, y);
+                    if (v != null) parts.push('• ' + nm(d, l) + ' — ' + v);
+                });
+                if (!parts.length) return T(l, y + ' жылы бойынша деректер жоқ.', 'За ' + y + ' год данных нет.');
+                return T(l, y + ' жылы:', 'В ' + y + ' году:') + '\n' + parts.join('\n');
+            }
+
+            function summary(l) {
+                var rows = D().map(function(d) {
+                    return '• ' + nm(d, l) + ': ' + line(d) + T(l, ' (барлығы ' + sum(d) + ')', ' (всего ' + sum(d) + ')');
+                });
+                return T(l, 'Көрсеткіштер (жылдар бойынша):', 'Показатели по годам:') + '\n' + rows.join('\n');
+            }
+
+            function peak(cat, l) {
+                var list = cat ? [cat] : D();
+                return list.map(function(d) {
+                    var mx = d.years[0],
+                        mn = d.years[0];
+                    d.years.forEach(function(a) {
+                        if (a[1] > mx[1]) mx = a;
+                        if (a[1] < mn[1]) mn = a;
+                    });
+                    if (mx[1] === mn[1]) return '• ' + nm(d, l) + T(l, ': барлық жылдары бірдей — ', ': во все годы одинаково — ') + mx[1];
+                    return '• ' + nm(d, l) + T(l, ': ең көп — ' + mx[0] + ' жылы (' + mx[1] + '), ең аз — ' + mn[0] + ' жылы (' + mn[1] + ')',
+                        ': больше всего — ' + mx[0] + ' (' + mx[1] + '), меньше всего — ' + mn[0] + ' (' + mn[1] + ')');
+                }).join('\n');
+            }
+
+            function trend(cat, l) {
+                var list = cat ? [cat] : D();
+                return list.map(function(d) {
+                    var a = d.years[0],
+                        b = d.years[d.years.length - 1],
+                        diff = b[1] - a[1];
+                    var w = diff < 0 ? T(l, 'азайды', 'уменьшилось') : diff > 0 ? T(l, 'өсті', 'выросло') : T(l, 'өзгермеді', 'не изменилось');
+                    return '• ' + nm(d, l) + ': ' + a[0] + ' — ' + a[1] + ' → ' + b[0] + ' — ' + b[1] + ' (' + w + (diff ? ' ' + Math.abs(diff) : '') + ')';
+                }).join('\n');
+            }
+
+            var ITEMS = [{
+                    kk: 'Жалпы көрсеткіштер',
+                    ru: 'Общие показатели',
+                    k: ['барлыгы', 'всего', 'итого', 'жалпы', 'канша', 'сколько', 'салыстыр', 'сравни', 'обзор', 'умум', 'показател', 'корсеткиш'],
+                    run: summary
+                },
+                {
+                    kk: 'Қай жылы көп / аз болды?',
+                    ru: 'В каком году больше / меньше?',
+                    k: [],
+                    run: function(l) {
+                        return peak(null, l);
+                    }
+                },
+                {
+                    kk: 'Динамика (өзгеріс)',
+                    ru: 'Динамика (изменение)',
+                    k: [],
+                    run: function(l) {
+                        return trend(null, l);
+                    }
+                },
+                {
+                    kk: 'Графикті қалай оқимын?',
+                    ru: 'Как читать графики?',
+                    k: ['график', 'диаграмм', 'столб', 'баган', 'как чит', 'окылады', 'оқимын', 'пунктир', 'сызык'],
+                    run: function(l) {
+                        return T(l, 'Әр график — бір бағыттың жылдар бойынша мектеп саны. Бағанның ішіндегі сан — сол жылғы мектеп саны. Бағанды немесе жылды басыңыз — тиісті бет сол жылға ашылады.',
+                            'Каждый график — число школ одного направления по годам. Число внутри столбца — значение за этот год. Клик по столбцу или году открывает нужную страницу на этом годе.');
+                    }
+                },
+                {
+                    kk: 'Бұл бет не туралы?',
+                    ru: 'О чём эта страница?',
+                    k: ['не туралы', 'о чем', 'что это', 'что такое', 'талдау', 'анализ', 'проект'],
+                    run: function(l) {
+                        return T(l, 'Бұл бет — Батыс Қазақстан облысы бойынша мектеп көрсеткіштерінің динамикасы (2023–2026): жаңа салынған, апатты және 3 ауысымды мектептер.',
+                            'Эта страница — динамика показателей школ Западно-Казахстанской области (2023–2026): новые, аварийные и трёхсменные школы.');
+                    }
+                },
+                {
+                    kk: 'Басқа беттер',
+                    ru: 'Другие страницы',
+                    k: ['баска', 'бет', 'меню', 'страниц', 'ссылк', 'перейти'],
+                    run: function(l) {
+                        return T(l, 'Мәзірде: «38 жаңа мектеп», «Апатты мектептер», «Үш ауысымды». Графиктің тақырыбын басса да сол бетке өтесіз.',
+                            'В меню: «38 жаңа мектеп», «Апатты мектептер», «Үш ауысымды». Клик по заголовку графика тоже ведёт на нужную страницу.');
+                    }
+                },
+                {
+                    kk: 'Байланыс',
+                    ru: 'Контакты',
+                    k: ['байланис', 'контакт', 'телефон', 'почта', 'связ', 'адрес'],
+                    run: function(l) {
+                        return T(l, 'Байланыс деректері бұл бетте көрсетілмеген. Облыстық білім басқармасына хабарласыңыз.',
+                            'Контакты на странице не указаны — уточните в управлении образования области.');
+                    }
+                }
+            ];
+
+            var has = function(f, arr) {
+                return arr.some(function(w) {
+                    return f.indexOf(fold(w)) !== -1;
+                });
+            };
+
+            function answer(q, forced) {
+                var l = /[әғқңөұүһі]/i.test(q) ? 'kk' : (/[эщъёьюя]|школ|сколько|где\b|как\b|что\b|год|покаж|есть|какие|динамик|график|сравн|больше|меньше|аварийн|смен|нов/i.test(q) ? 'ru' : (forced || lang));
+                var f = fold(q);
+                var ym = /(20[2-3]\d)/.exec(q),
+                    year = ym ? +ym[1] : null;
+                var cat = null;
+                D().forEach(function(d) {
+                    if (!cat && has(f, KEYS[d.key] || [])) cat = d;
+                });
+                if (has(f, ['динамик', 'тенденц', 'изменени', 'рост', 'снижен', 'азай', 'өзгер', 'озгер', 'өсу'])) return trend(cat, l);
+                if (has(f, ['коп', 'больше всего', 'меньше всего', 'наибольш', 'наименьш', 'максим', 'минимум', 'пик', 'кай жили', 'какой год', 'каком году', 'аз болды'])) return peak(cat, l);
+                if (cat) return catAnswer(cat, year, l);
+                if (year) return yearAnswer(year, l);
+                var best = null,
+                    bs = 0;
+                ITEMS.forEach(function(it) {
+                    var s = 0;
+                    it.k.forEach(function(w) {
+                        if (f.indexOf(fold(w)) !== -1) s += w.length;
+                    });
+                    if (s > bs) {
+                        bs = s;
+                        best = it;
+                    }
+                });
+                if (best) return best.run(l);
+                return T(l, 'Кешіріңіз, жауап таппадым. Жылды немесе бағытты жазып көріңіз (мысалы: «2025», «апатты мектептер», «динамика»).',
+                    'Не нашёл ответ. Напишите год или направление (например: «2025», «аварийные школы», «динамика»).');
+            }
+
+            function add(text, me) {
+                var d = document.createElement('div');
+                d.className = 'bot-m ' + (me ? 'bot-m--me' : 'bot-m--bot');
+                d.textContent = text;
+                msgs.appendChild(d);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function reply(text) {
+                setTimeout(function() {
+                    add(text, false);
+                }, 300);
+            }
+
+            function renderChips() {
+                chips.innerHTML = '';
+                var list = ITEMS.map(function(it) {
+                    return {
+                        label: T(lang, it.kk, it.ru),
+                        run: function() {
+                            return it.run(lang);
+                        }
+                    };
+                });
+                D().forEach(function(d) {
+                    list.push({
+                        label: nm(d, lang).charAt(0).toUpperCase() + nm(d, lang).slice(1),
+                        run: function() {
+                            return catAnswer(d, null, lang);
+                        }
+                    });
+                });
+                allYears().forEach(function(y) {
+                    list.push({
+                        label: T(lang, y + ' жыл', y + ' год'),
+                        run: function() {
+                            return yearAnswer(y, lang);
+                        }
+                    });
+                });
+                list.forEach(function(c) {
+                    var b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'bot-chip';
+                    b.textContent = c.label;
+                    b.addEventListener('click', function() {
+                        add(c.label, true);
+                        reply(c.run());
+                    });
+                    chips.appendChild(b);
+                });
+            }
+
+            function applyLang() {
+                langBtn.textContent = lang === 'kk' ? 'ҚАЗ' : 'РУС';
+                sub.textContent = T(lang, 'Сайт бойынша көмекші', 'Помощник по сайту');
+                input.placeholder = T(lang, 'Сұрағыңызды жазыңыз…', 'Напишите вопрос…');
+                renderChips();
+            }
+            langBtn.addEventListener('click', function() {
+                lang = lang === 'kk' ? 'ru' : 'kk';
+                applyLang();
+            });
+
+            var greeted = false;
+
+            function toggle(open) {
+                var on = open != null ? open : !win.classList.contains('is-open');
+                win.classList.toggle('is-open', on);
+                fab.setAttribute('aria-expanded', on);
+                if (on && !greeted) {
+                    greeted = true;
+                    add(T(lang, 'Сәлеметсіз бе! Мен талдау беті бойынша көмекшімін. Сұрақты таңдаңыз немесе жылды, бағытты жазыңыз (мысалы: «2025», «апатты мектептер», «динамика»). Орысша да жаза аласыз (ҚАЗ/РУС батырмасы).',
+                        'Здравствуйте! Я помощник по странице анализа. Выберите вопрос или напишите год или направление (например: «2025», «аварийные школы», «динамика»). Можно писать и по-казахски (кнопка ҚАЗ/РУС).'), false);
+                }
+                if (on) setTimeout(function() {
+                    input.focus();
+                }, 250);
+            }
+            fab.addEventListener('click', function() {
+                toggle();
+            });
+            document.getElementById('botClose').addEventListener('click', function() {
+                toggle(false);
+            });
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var q = input.value.trim();
+                if (!q) return;
+                input.value = '';
+                add(q, true);
+                reply(answer(q));
+            });
+            applyLang();
         })();
     </script>
     <script src="./js/app.js"></script>
